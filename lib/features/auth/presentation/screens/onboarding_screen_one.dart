@@ -215,7 +215,7 @@ class OnboardingScreen extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -232,6 +232,7 @@ class OnboardingScreen extends StatelessWidget {
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 14,
+                    fontWeight: FontWeight.w400,
                     height: 1.5,
                   ),
                 ),
