@@ -1,5 +1,11 @@
+import 'package:flutter_iknow_tennis/features/auth/data/model/forget_pass_request_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/forget_pass_response_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_response_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_request_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_response_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/signup_request_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/signup_response_model.dart';
 
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/constants/api_constants.dart';
@@ -21,10 +27,36 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-//    @override
-//   NetworkResult<RegisterResponseModel> register(RegisterRequestModel request) {
-//     return _apiClient.post<RegisterResponseModel>(
-//       ApiConstants.auth.register,
-//       data: request.toJson(),
-//   }
+   @override
+  NetworkResult<SignupResponseModel> register(SignupRequestModel request) {
+    return _apiClient.post<SignupResponseModel>(
+      ApiConstants.auth.register,
+      data: request.toJson(),
+      fromJsonT: (json) => SignupResponseModel.fromJson(json),
+      // isFormData: true
+    );
+  }
+
+   @override
+  NetworkResult<ForgetPassResponseModel> forgotPassword(
+    ForgetPassRequestModel request,
+  ) {
+    return _apiClient.post(
+      ApiConstants.auth.forget,
+      data: request.toJson(),
+      fromJsonT: (json) => ForgetPassResponseModel.fromJson(json),
+    );
+  }
+
+   @override
+  NetworkResult<OtpVerifyResponseModel> verifyOtp(
+    OtpVerifyRequestModel request,
+  ) {
+    return _apiClient.post(
+      ApiConstants.auth.verify,
+      data: request.toJson(),
+      fromJsonT: (json) => OtpVerifyResponseModel.fromJson(json),
+    );
+  }
+
  }

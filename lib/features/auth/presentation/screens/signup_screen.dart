@@ -6,9 +6,42 @@ import 'package:flutter_iknow_tennis/features/auth/presentation/widget/custom_te
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_buttoms.dart';
+import '../controller/auth_controller.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+
+  final _authController = Get.find<AuthController>();
+
+   final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _confirmPasswordFocus = FocusNode();
+  final FocusNode _nameFocus = FocusNode();
+  final FocusNode _phoneFocus = FocusNode();
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+    void _submit() {
+    _authController.register(
+      _nameController.text.toString(),
+      _emailController.text,
+      _passwordController.text,
+      _phoneController.text,
+      _confirmPasswordController.text
+     
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +78,8 @@ class SignupScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              const CustomTextField(
+               CustomTextField(
+                controller:_nameController, 
                 hint: "Enter your Full  Name",
                 prefixIcon: Icons.person_3_sharp,
               ),
@@ -61,7 +95,8 @@ class SignupScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              const CustomTextField(
+               CustomTextField(
+                controller: _emailController,
                 hint: "Enter your Email",
                 prefixIcon: Icons.email_outlined,
                 
@@ -78,7 +113,8 @@ class SignupScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              const CustomTextField(
+               CustomTextField(
+                controller: _phoneController,
                 hint: "Enter your Phone Number",
                 prefixIcon: Icons.phone_callback,
                 
@@ -95,7 +131,8 @@ class SignupScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              const CustomTextField(
+               CustomTextField(
+                controller: _passwordController,
                 hint: "Create a Password ",
                 prefixIcon: Icons.lock_outline,
                 
@@ -112,7 +149,8 @@ class SignupScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              const CustomTextField(
+               CustomTextField(
+                controller: _confirmPasswordController,
                 hint: "Confirm a Password ",
                 prefixIcon: Icons.lock_outline,
                 
@@ -173,7 +211,7 @@ class SignupScreen extends StatelessWidget {
                   borderRadius: 12,
                   isGradient: false,
                   backgroundColor: const Color(0xFF2058E6),
-                  onPressed: () {},
+                  onPressed: _submit,
                   child: const Text(
                     "Sign up",
                     style: TextStyle(
