@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
+import 'package:flutter_iknow_tennis/features/Home/presentation/screens/home_screen.dart';
 import 'package:flutter_iknow_tennis/features/auth/presentation/widget/custom_text_field.dart';
+import 'package:flutter_iknow_tennis/features/other/presentation/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_buttoms.dart';
@@ -94,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                   const Spacer(),
                   TextButton(
                     onPressed: () {
-                      Get.to(()=> ResetPasswordScreen());
+                      Get.to(() => ResetPasswordScreen());
                     },
                     child: const Text(
                       "Forgot password?",
@@ -114,7 +116,9 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: 12,
                   isGradient: false,
                   backgroundColor: const Color(0xFF2058E6),
-                  onPressed: () {},
+                  onPressed: () {
+                   Get.to(() => DashboardScreen());
+                  },
                   child: const Text(
                     "Sign in",
                     style: TextStyle(

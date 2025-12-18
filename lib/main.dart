@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 
 import 'core/init/app_initializer.dart';
 import 'core/theme/app_theme.dart';
+import 'features/Home/presentation/screens/home_screen.dart';
 import 'features/auth/presentation/screens/splash_screen.dart';
+import 'features/other/presentation/screens/dashboard_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
