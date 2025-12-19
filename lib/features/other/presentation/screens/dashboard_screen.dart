@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/features/Home/presentation/screens/home_screen.dart';
+import 'package:flutter_iknow_tennis/features/profile/screens/profile_screen.dart';
 
 import '../../../Home/presentation/screens/quiz_screen.dart';
 import '../widgets/bottom_nav_bar.dart';
@@ -21,7 +22,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     HomeScreen(), // Removed Center for now, you can wrap if needed
      Center(child: QuizScreen()), // Placeholder
     const Center(child: Text('Gain Screen')), // Placeholder
-    const Center(child: Text('Profile Screen')), // Placeholder
+    const Center(child: ProfileScreen()), // Placeholder
   ];
 
   @override
