@@ -1,6 +1,6 @@
 class ApiConstants {
   /// [Base Configuration]
-  static const String baseDomain = 'http://10.10.5.53:5001';
+  static const String baseDomain = 'http://10.10.5.53:8000';
   static const String baseUrl = '$baseDomain/api/v1';
 
 
@@ -46,9 +46,9 @@ class AuthEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/auth';
 
   final String login = '$_base/login';
-  final String register = '$_base/register';
-  final String forget = '$_base/forget';
-  final String verify = '$_base/verify';
+  final String register = '$_base/signup';
+  final String forget = '$_base/forgot-password';
+  final String verify = '$_base/verify-otp';
   final String refreshToken = '${ApiConstants.baseUrl}/auth/refresh-token';
 
   // Password Reset Flow

@@ -6,11 +6,43 @@ import 'package:flutter_iknow_tennis/features/other/presentation/screens/dashboa
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_buttoms.dart';
+import '../controller/auth_controller.dart';
 import 'reset_password_screen.dart';
 import 'signup_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _authController = Get.find<AuthController>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    if (email.isNotEmpty && password.isNotEmpty) {
+      _authController.login(email, password);
+    } else {
+      Get.snackbar('Error', 'Please enter email and password');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +89,8 @@ class LoginScreen extends StatelessWidget {
                 child: Text("Email", style: TextStyle(color: Colors.white70)),
               ),
               const SizedBox(height: 8),
-              const CustomTextField(
+              CustomTextField(
+                controller: _emailController,
                 hint: "Enter your Email",
                 prefixIcon: Icons.email_outlined,
               ),
@@ -73,7 +106,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              const CustomTextField(
+              CustomTextField(
+                controller: _passwordController,
                 hint: "Enter your Password",
                 prefixIcon: Icons.lock_outline,
                 isPassword: true,
@@ -116,9 +150,7 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: 12,
                   isGradient: false,
                   backgroundColor: const Color(0xFF2058E6),
-                  onPressed: () {
-                   Get.to(() => DashboardScreen());
-                  },
+                  onPressed: _submit,
                   child: const Text(
                     "Sign in",
                     style: TextStyle(
