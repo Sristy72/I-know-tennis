@@ -116,12 +116,7 @@ class PaymentEndpoints {
 
 class ProfileEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/user';
-  final String fetchProfile = '$_base/profile';
+  String fetchProfile(String userId) => '$_base/$userId';
   final String updateProfile = '$_base/profile';
-
-  String fetchFavorite(String userId) => '${ApiConstants.baseUrl}/favorites/$userId';
-  final String fetchOngoing = '${ApiConstants.baseUrl}/orders/my?filter=ongoing';
-  final String fetchDelivered = '${ApiConstants.baseUrl}/orders/my?filter=completed';
-  final String fetchOrder = '${ApiConstants.baseUrl}/orders';
-  // String fetchCategory(String userId) =>;
+  final String fetchAllSubs = '${ApiConstants.baseUrl}/subscription-plan';
 }

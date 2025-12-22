@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
+import 'package:flutter_iknow_tennis/features/profile/controller/profile_controller.dart';
 import 'package:flutter_iknow_tennis/features/profile/screens/change_password_screen.dart';
 import 'package:flutter_iknow_tennis/features/profile/screens/edit_profile_screen.dart';
 import 'package:flutter_iknow_tennis/features/profile/screens/faq_screen.dart';
@@ -8,8 +9,23 @@ import 'package:flutter_iknow_tennis/features/profile/screens/subscription_scree
 import 'package:flutter_iknow_tennis/features/profile/screens/terms_&_conditions_screen.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final ProfileController profileController = Get.find<ProfileController>();
+  // Or if not already put in Get: Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch profile data when screen loads
+    profileController.fetchProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +33,11 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Profile Header (optional, commented)
             const SizedBox(height: 16),
 
             // Leaderboard Card
             Container(
-              padding: const EdgeInsets.all(1), // Border width
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: const LinearGradient(
@@ -37,58 +52,62 @@ class ProfileScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: const Color(0xFF042F4D),
                   borderRadius: BorderRadius.circular(20),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.blue.withOpacity(0.3),
-                  //     blurRadius: 10,
-                  //     offset: const Offset(0, 4),
-                  //   ),
-                  // ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage(
-                            'assets/images/Container.png',
+                    // Profile Header with dynamic data
+                    Obx(() {
+                      final user = profileController.userInfo.value;
+                      final String displayName = user?.fullName ?? 'Loading...';
+                      final String avatarUrl = user?.avatar ?? '';
+
+                      return Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.grey.shade800,
+                            backgroundImage: avatarUrl.isNotEmpty
+                                ? NetworkImage(avatarUrl)
+                                : const AssetImage('assets/images/Container.png') as ImageProvider,
+                            child: avatarUrl.isEmpty
+                                ? const Icon(Icons.person, size: 30, color: Colors.white70)
+                                : null,
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Madiha Aroa',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                displayName,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Welcome back',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
+                              const Text(
+                                'Welcome back',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }),
+
                     const SizedBox(height: 24),
+
+                    // Stats section (you can also make these dynamic later)
                     Container(
                       padding: const EdgeInsets.all(1.5),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFF709FFF),
-                            Color(0xFF1976D2),
-                          ],
+                          colors: [Color(0xFF709FFF), Color(0xFF1976D2)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -97,18 +116,14 @@ class ProfileScreen extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [
-                              Color(0xCC4D82EB),
-                              Color(0x660069CA),
-                            ],
+                            colors: [Color(0xCC4D82EB), Color(0x660069CA)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -128,10 +143,10 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Settings Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
-                children: const [
+                children: [
                   Icon(Icons.settings_outlined, color: Colors.white70),
                   SizedBox(width: 12),
                   Text(
@@ -148,17 +163,14 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Settings List with Gradient Border
+            // Settings List
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFF95E545), // Border start
-                      Color(0xFF00A3FF), // Border end
-                    ],
+                    colors: [Color(0xFF95E545), Color(0xFF00A3FF)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -210,7 +222,7 @@ class ProfileScreen extends StatelessWidget {
                       _buildSettingsTile(
                         'assets/images/logout.png',
                         'Log out',
-                            () {}, // add logout function here
+                            () {profileController.logout();}, // TODO: Implement logout
                       ),
                     ],
                   ),
@@ -294,6 +306,7 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white54),
           ],
         ),
       ),

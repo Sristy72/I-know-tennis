@@ -26,7 +26,7 @@ class SubscriptionCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Color(0xFFA6A7E7).withOpacity(0.1),
@@ -51,7 +51,7 @@ class SubscriptionCard extends StatelessWidget {
                     decoration: const BoxDecoration(
                       color: Color(0xFF5F8DFF),
                       borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20)),
+                      BorderRadius.vertical(top: Radius.circular(8)),
                     ),
                   ),
                 ),
@@ -62,7 +62,7 @@ class SubscriptionCard extends StatelessWidget {
                     decoration: const BoxDecoration(
                       color: Color(0xFF1F4ED8),
                       borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20)),
+                      BorderRadius.vertical(top: Radius.circular(8)),
                     ),
                   ),
                 ),
@@ -141,7 +141,7 @@ class SubscriptionCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3377FF),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 onPressed: onSubscribe,

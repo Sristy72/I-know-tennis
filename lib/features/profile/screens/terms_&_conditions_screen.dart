@@ -32,7 +32,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
                   ),
                   Center(
                     child: Text(
-                      'Privacy policy',
+                      'Terms & Conditions',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
