@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_buttoms.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
+import 'package:get/get.dart';
 
-class AttemptQuizScreen extends StatelessWidget {
+class AttemptQuizScreen extends StatefulWidget {
   const AttemptQuizScreen({super.key});
 
+  @override
+  State<AttemptQuizScreen> createState() => _AttemptQuizScreenState();
+}
+
+class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
+  final AttemptQuizController _attemptQuizController = Get.find<AttemptQuizController>();
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -20,7 +28,19 @@ class AttemptQuizScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
+          child: Obx((){
+            if(_attemptQuizController.isLoading.value){
+              return Center(child: CircularProgressIndicator());
+            }
+            if(_attemptQuizController.categoricalQuizList.isEmpty){
+              return const Center(
+                child: Text(
+                  'No quizzes found',
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            }
+            return Column(
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -63,8 +83,9 @@ class AttemptQuizScreen extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: 5,
+                          itemCount: _attemptQuizController.categoricalQuizList.length,
                           itemBuilder: (context, index) {
+                            final quiz = _attemptQuizController.categoricalQuizList[index];
                             return Container(
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(20),
@@ -75,37 +96,37 @@ class AttemptQuizScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      '1. What is the correct score call after deuce?',
+                                      quiz.quizQuestion ?? '',
                                       style: TextStyle(
-                                        color: AppColors.primaryWhite,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600
+                                          color: AppColors.primaryWhite,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600
                                       ),
                                     ),
                                     const SizedBox(height: 8,),
                                     ListView.separated(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount: 4,
+                                      itemCount: quiz.quizOptions?.length ?? 0,
                                       itemBuilder: (context, index){
-                                      return Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(80),
-                                          border: Border.all(color: AppColors.primaryWhite),
-                                        ),
-                                        padding: EdgeInsets.all(8),
-                                        alignment: Alignment.center,
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.circle_outlined, color: Color(0xFF709FFF),),
-                                            SizedBox(width: 8,),
-                                            Text('Advantage', style: TextStyle(color: AppColors.primaryWhite),)
-                                            
-                                          ],
-                                        ),
-                                      );
-                                    }, separatorBuilder: (context, index) => SizedBox(height: 8,),)
-                                
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(80),
+                                            border: Border.all(color: AppColors.primaryWhite),
+                                          ),
+                                          padding: EdgeInsets.all(8),
+                                          alignment: Alignment.center,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.circle_outlined, color: Color(0xFF709FFF),),
+                                              SizedBox(width: 8,),
+                                              Text(quiz.quizOptions![index], style: TextStyle(color: AppColors.primaryWhite),)
+
+                                            ],
+                                          ),
+                                        );
+                                      }, separatorBuilder: (context, index) => SizedBox(height: 8,),)
+
                                   ],
                                 ),
                               ),
@@ -118,9 +139,11 @@ class AttemptQuizScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24,),
-                SecondaryButton(onPressed: (){}, text: 'Next', backgroundColor: Color(0xFF),)
+                SecondaryButton(onPressed: (){}, text: 'Next',)
               ],
-            ),
+            );
+          })
+
         ),
       ),
     );

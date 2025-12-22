@@ -25,9 +25,8 @@ class ApiConstants {
   static AuthEndpoints get auth => AuthEndpoints();
 
   static UserEndpoints get user => UserEndpoints();
-  static NotificationEndpoints get notification => NotificationEndpoints();
 
-  static ProductEndpoints get product => ProductEndpoints();
+  static QuizEndpoints get quiz => QuizEndpoints();
   static LeagueEndpoints get league => LeagueEndpoints();
 
   static ContactEndpoints get contact => ContactEndpoints();
@@ -82,17 +81,9 @@ class UserEndpoints {
   // final String create = '$_base/create';
 }
 
-class NotificationEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/notification';
-
-  final String getnotifications = '$_base/getnotifications';
-}
-
-class ProductEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/products';
-  final String getProducts = _base;
-
-  final String create = '$_base/create';
+class QuizEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/quiz';
+  final String getQuiz = _base;
 }
 
 class LeagueEndpoints {

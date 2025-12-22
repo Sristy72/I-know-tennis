@@ -1,4 +1,3 @@
-// lib/core/network/models/network_success.dart
 import 'package:equatable/equatable.dart';
 
 class NetworkSuccess<T> extends Equatable {
@@ -56,3 +55,4 @@ class RetrievedSuccess<T> extends NetworkSuccess<T> {
     super.statusCode = 200,
   });
 }
+
