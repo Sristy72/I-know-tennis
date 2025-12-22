@@ -6,12 +6,14 @@ class BaseResponse<T> {
   final bool success;
   final String message;
   final T? data;
+  final T? pagination;
   final List<ErrorSource>? errorSources;
 
   BaseResponse({
     required this.success,
     required this.message,
     this.data,
+    this.pagination,
     this.errorSources,
   });
 
@@ -51,6 +53,7 @@ class BaseResponse<T> {
       success: json['success'] ?? json['status'] ?? false,
       message: json['message'] ?? '',
       data: parsedData,
+      pagination: json['pagination'] != null? fromJsonT(json['pagination']) : null,
       errorSources: json['errorSources'] != null
           ? (json['errorSources'] as List)
                 .map((e) => ErrorSource.fromJson(e))
