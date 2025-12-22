@@ -22,8 +22,8 @@ class PrimaryButton extends StatelessWidget {
     this.isLoading = false,
     this.isGradient = true,
     this.isBorder = false,
-    this.backgroundColor = AppColors.primaryWhite,
-    this.borderRadius = 50,
+    this.backgroundColor = AppColors.primaryBlue,
+    this.borderRadius = 8,
   });
 
   @override
@@ -82,9 +82,9 @@ class SecondaryButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
-    this.backgroundColor = AppColors.primaryWhite,
-    this.textColor = AppColors.textBlack,
-    this.borderColor = AppColors.textGreen,
+    this.backgroundColor = AppColors.buttonNavyBlue,
+    this.textColor = AppColors.primaryWhite,
+    this.borderColor = AppColors.primaryWhite,
     this.width,
     this.height,
     this.isLoading = false,
@@ -122,7 +122,7 @@ class SecondaryButton extends StatelessWidget {
                     style: TextStyle(
                       color: textColor,
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
           ),

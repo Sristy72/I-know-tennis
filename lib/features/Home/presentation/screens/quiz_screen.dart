@@ -7,7 +7,7 @@ import '../controller/home_controller.dart';
 import '../widget/quiz_card_widget.dart';
 
 class QuizScreen extends StatefulWidget {
-  QuizScreen({super.key});
+  const QuizScreen({super.key});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();

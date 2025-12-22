@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const Color primaryBlue = Color(0xFF2058E6);
   static const Color primaryGreen = Color(0xFF00917B);
   static const Color primaryWhite = Color(0xFFFFFFFF);
   static const Color primaryLightGreen = Color(0xFFE6F5F3);
@@ -11,6 +12,8 @@ class AppColors {
 
   // * <--- Text Color --->
   static const Color textGrey = Color(0xFF636363);
+  static const Color textCyan = Color(0xFF22D3EE);
+  static const Color textAmber = Color(0xFFFFC34D);
   static const Color subTextGrey = Color(0xFF8E8E93);
   static const Color textBlack = Color(0xFF292929);
   static const Color textBlue = Color(0xFF2B7FD0);
@@ -23,7 +26,12 @@ class AppColors {
   static const Color updateGrey = Color(0xFFE5E7EB);
   static const Color lightRed = Color(0xFFFFD3C8);
   static const Color containerBorderLavender = Color(0xFFCCD1FF);
-  static const Color backgroundContainerGrey =Color(0xFFD4E3EA);
+  static const Color containerBorderBlue = Color(0xFF4088E6);
+  static const Color containerBorderBlueGray = Color(0xFFB8C3D4);
+  static const Color backgroundContainerGrey = Color(0xFFD4E3EA);
+  static const Color iconContainerBG = Color(0xFF5F88B0);
+  static const Color dividerColor = Color(0xFFA8A8A8);
+  static const Color buttonNavyBlue = Color(0xFF183480);
 
 
   // * <--- Home  --->
