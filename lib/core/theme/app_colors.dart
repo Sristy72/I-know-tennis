@@ -15,11 +15,13 @@ class AppColors {
   static const Color textCyan = Color(0xFF22D3EE);
   static const Color textAmber = Color(0xFFFFC34D);
   static const Color subTextGrey = Color(0xFF8E8E93);
-  static const Color textBlack = Color(0xFF292929);
+  static const Color textBlack = Color(0xFF000000);
   static const Color textBlue = Color(0xFF2B7FD0);
   static const Color textFieldLightGrey = Color(0xFFCCCCCC);
   static const Color textFieldLightLavender = Color(0xFFD8D6FF);
-  static const Color textGreen = Color(0xFF82B859);
+  static const Color textGreen = Color(0xFF12B347);
+  static const Color textRed = Color(0xFFCC304C);
+
 
   // * <--- Others --->
   static const Color logoutRed = Color(0xFFDC2626);

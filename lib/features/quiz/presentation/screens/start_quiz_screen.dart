@@ -111,7 +111,8 @@ class StartQuizScreen extends StatelessWidget {
                     fontSize: 16,
                   ),)
                 ],
-              ))
+              ),
+              ),
             ],
           ),
         )

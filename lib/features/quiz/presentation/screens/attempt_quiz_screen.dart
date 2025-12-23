@@ -3,6 +3,7 @@ import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_buttoms.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/complete_quiz_screen.dart';
 import 'package:get/get.dart';
 
 class AttemptQuizScreen extends StatefulWidget {
@@ -139,7 +140,9 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                   ),
                 ),
                 const SizedBox(height: 24,),
-                SecondaryButton(onPressed: (){}, text: 'Next',)
+                SecondaryButton(onPressed: (){
+                  Get.to(() => CompleteQuizScreen());
+                }, child: Text("data"),)
               ],
             );
           })

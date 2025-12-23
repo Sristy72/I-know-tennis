@@ -1,6 +1,7 @@
 import 'package:flutter_iknow_tennis/core/base/base_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/categorical_quiz_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/attempt_quiz_repository.dart';
+import 'package:flutx_core/flutx_core.dart';
 import 'package:get/get.dart';
 
 class AttemptQuizController extends BaseController{
@@ -26,6 +27,7 @@ class AttemptQuizController extends BaseController{
       Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
     }, (success){
       setLoading(false);
+      DPrint.log("Quiz Pagination: ${success.pagination}");
       categoricalQuizList.assignAll(success.data);
 
     });
