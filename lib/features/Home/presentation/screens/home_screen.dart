@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iknow_tennis/features/Home/presentation/screens/quiz_screen.dart';
+import 'package:flutter_iknow_tennis/features/other/presentation/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/common/widgets/app_scaffold.dart';
+import '../../../other/presentation/controller/dashboard_controller.dart';
 import '../controller/home_controller.dart';
 import '../widget/bottom_app_bar.dart';
 import '../widget/quiz_card_widget.dart';
@@ -14,7 +17,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final controller = Get.put(HomeController());
+  final controller = Get.find<HomeController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _Header(),
-             SizedBox(height: 16),
+            SizedBox(height: 16),
             _ProgressCard(),
-             SizedBox(height: 20),
+            SizedBox(height: 20),
             _QuizSection(),
           ],
         ),
@@ -65,18 +74,26 @@ class _Header extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFFFFFFFF)
+                    color: Color(0xFFFFFFFF),
                   ),
                 ),
                 const Text(
                   'Welcome back',
-                  style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
           ),
           const Spacer(),
-          const Icon(Icons.notifications_none, size: 28,color: Color(0xFFFFFFFF),),
+          const Icon(
+            Icons.notifications_none,
+            size: 28,
+            color: Color(0xFFFFFFFF),
+          ),
         ],
       ),
     );
@@ -134,6 +151,67 @@ class _ProgressItem extends StatelessWidget {
   }
 }
 
+
+// class _QuizSection extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final controller = Get.find<HomeController>();
+
+//     return Expanded(
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: const [
+//                 Text(
+//                   'Find a quiz',
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.w500,
+//                     color: Color(0xFFFFFFFF),
+//                   ),
+//                 ),
+//                 Text(
+//                   'See All',
+//                   style: TextStyle(
+//                     color: Color(0xFF3F7FFF),
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w500,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             const SizedBox(height: 12),
+//             // Remove the extra Expanded here
+//             Expanded(
+//               child: Obx(() {
+//                 final quizList = controller.quizCat.value;
+
+//                 if (quizList.isEmpty) {
+//                   return const Center(child: Text("No quizzes available"));
+//                 }
+
+//                 return GridView.builder(
+//                   itemCount: quizList.length,
+//                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//                     crossAxisCount: 2,
+//                     crossAxisSpacing: 14,
+//                     mainAxisSpacing: 14,
+//                     childAspectRatio: 0.65,
+//                   ),
+//                   itemBuilder: (_, i) => QuizCard(quiz: quizList[i]),
+//                 );
+//               }),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 class _QuizSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -147,28 +225,61 @@ class _QuizSection extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'Find a quiz',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: Color(0xFFFFFFFF)),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFFFFFFFF),
+                  ),
                 ),
-                Text('See All', style: TextStyle(color: Color(0xFF3F7FFF), fontSize: 14,fontWeight: FontWeight.w500)),
+                GestureDetector(
+                  onTap: () {
+                      // Get.find<DashboardController>().changeTab(1);
+                   Get.offAll(() => DashboardScreen(initialIndex: 1));
+
+                  },
+                  child: const Text(
+                    'See All',
+                    style: TextStyle(
+                      color: Color(0xFF3F7FFF),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 12),
             Expanded(
-              child: Obx(
-                () => GridView.builder(
-                  itemCount: controller.quizzes.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              child: Obx(() {
+                final allQuizzes = controller.quizCat;
+                final previewQuizzes = allQuizzes.take(4).toList();
+
+                if (previewQuizzes.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "No quizzes available",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
+
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: previewQuizzes.length,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: .75,
+                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 14,
+                    childAspectRatio: 0.65,
                   ),
-                  itemBuilder: (_, i) => QuizCard(quiz: controller.quizzes[i]),
-                ),
-              ),
+                  itemBuilder: (_, i) =>
+                      QuizCard(quiz: previewQuizzes[i]),
+                );
+              }),
             ),
           ],
         ),

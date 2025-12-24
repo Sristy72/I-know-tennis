@@ -35,6 +35,7 @@ class ApiConstants {
   static RecruiterAccountApi get recruiter => RecruiterAccountApi();
 
   static ProfileEndpoints get profile => ProfileEndpoints();
+  static HomeEndpoints get home => HomeEndpoints();
 }
 
 class RecruiterAccountApi {
@@ -124,4 +125,10 @@ class ProfileEndpoints {
   final String fetchDelivered = '${ApiConstants.baseUrl}/orders/my?filter=completed';
   final String fetchOrder = '${ApiConstants.baseUrl}/orders';
   // String fetchCategory(String userId) =>;
+}
+
+class HomeEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/quiz';
+  final String getQuiz = _base;
+  final String getCategories = '${ApiConstants.baseUrl}/quiz-categories';
 }

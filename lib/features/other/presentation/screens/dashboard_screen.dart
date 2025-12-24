@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/features/Home/presentation/screens/home_screen.dart';
+import 'package:get/get.dart';
 
 import '../../../Home/presentation/screens/quiz_screen.dart';
+import '../controller/dashboard_controller.dart';
 import '../widgets/bottom_nav_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -12,6 +14,36 @@ class DashboardScreen extends StatefulWidget {
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
+// class _DashboardScreenState extends State<DashboardScreen> {
+//   final controller = Get.put(DashboardController());
+
+//   final List<Widget> _screens = [
+//     HomeScreen(),
+//     QuizScreen(),
+//     const Center(child: Text('Gain Screen')),
+//     const Center(child: Text('Profile Screen')),
+//   ];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller.currentIndex.value = widget.initialIndex;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() => Scaffold(
+//           body: IndexedStack(
+//             index: controller.currentIndex.value,
+//             children: _screens,
+//           ),
+//           bottomNavigationBar: AppBottomNavBar(
+//             currentIndex: controller.currentIndex.value,
+//             onTabSelected: controller.changeTab,
+//           ),
+//         ));
+//   }
+// }
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late int _currentIndex;
