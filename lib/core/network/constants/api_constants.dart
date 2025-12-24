@@ -35,6 +35,7 @@ class ApiConstants {
   static RecruiterAccountApi get recruiter => RecruiterAccountApi();
 
   static ProfileEndpoints get profile => ProfileEndpoints();
+  static HomeEndpoints get home => HomeEndpoints();
 }
 
 class RecruiterAccountApi {
@@ -119,4 +120,10 @@ class ProfileEndpoints {
   String fetchProfile(String userId) => '$_base/$userId';
   final String updateProfile = '$_base/profile';
   final String fetchAllSubs = '${ApiConstants.baseUrl}/subscription-plan';
+}
+
+class HomeEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/quiz';
+  final String getQuiz = _base;
+  final String getCategories = '${ApiConstants.baseUrl}/quiz-categories';
 }
