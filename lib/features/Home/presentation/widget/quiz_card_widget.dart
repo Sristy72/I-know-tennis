@@ -100,121 +100,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/features/Home/data/model/quiz_category_response_model.dart';
 import '../../data/model/quiz_response_model.dart';
 
-// class QuizCard extends StatelessWidget {
-//   final QuizCategoryResponse quiz; // Accept a single QuizData
-
-//   const QuizCard({super.key, required this.quiz});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: double.infinity,
-//       height: 290,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(16),
-//         color: Colors.white.withOpacity(0.15),
-//         boxShadow: [
-//           BoxShadow(color: Colors.black.withOpacity(.05), blurRadius: 8),
-//         ],
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           // Quiz Image (optional)
-//           ClipRRect(
-//             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-//             child: quiz.quizCategoryImage != null
-//                 ? Image.network(
-//                     quiz.quizCategoryImage?? '',
-//                     height: 150,
-//                     width: double.infinity,
-//                     fit: BoxFit.cover,
-//                     errorBuilder: (context, error, stackTrace) => Container(
-//                       height: 150,
-//                       color: Colors.grey,
-//                       child: const Center(
-//                         child: Icon(Icons.image, color: Colors.white),
-//                       ),
-//                     ),
-//                   )
-//                 : Container(
-//                     height: 150,
-//                     color: Colors.grey,
-//                     child: const Center(
-//                       child: Icon(Icons.image, color: Colors.white),
-//                     ),
-//                   ),
-//           ),
-
-//           // Quiz Info
-//           Expanded(
-//             child: Padding(
-//               padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   // Quiz Question
-//                   Text(
-//                     quiz.quizCategoryName ?? '',
-//                     maxLines: 2,
-//                     overflow: TextOverflow.ellipsis,
-//                     style: const TextStyle(
-//                       fontWeight: FontWeight.w500,
-//                       fontSize: 12,
-//                       color: Colors.white,
-//                     ),
-//                   ),
-
-//                   const Divider(
-//                     color: Colors.white,
-//                     height: 15,
-//                     thickness: 1,
-//                   ),
-
-//                   // Bottom row: Number of options + Category
-//                   Row(
-//                     children: [
-//                       Expanded(
-//                         child: Text(
-//                           '${quiz.quizOptions?.length ?? 0} Options',
-//                           overflow: TextOverflow.ellipsis,
-//                           style: const TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 10,
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                         ),
-//                       ),
-//                       Container(
-//                         padding: const EdgeInsets.symmetric(
-//                           horizontal: 10,
-//                           vertical: 4,
-//                         ),
-//                         child: Text(
-//                           quiz.quizCategory?.quizCategoryName ?? '',
-//                           style: const TextStyle(
-//                             fontSize: 11,
-//                             color: Color(0xFF22C55E),
-//                             fontWeight: FontWeight.w600,
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-
-
 class QuizCard extends StatelessWidget {
   final QuizCategoryResponse quiz;
 
@@ -229,10 +114,7 @@ class QuizCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF2B3C6A),
-            Color(0xFF2B3C6A),
-          ],
+          colors: [Color(0xFF2B3C6A), Color(0xFF2B3C6A)],
         ),
         boxShadow: [
           BoxShadow(
@@ -247,9 +129,7 @@ class QuizCard extends StatelessWidget {
         children: [
           /// 🔹 Image
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(18),
-            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
             child: Image.network(
               quiz.quizCategoryImage ?? '',
               height: 180,
@@ -283,7 +163,7 @@ class QuizCard extends StatelessWidget {
                   ),
 
                   const Spacer(),
-                   const Divider(color: Colors.white),
+                  const Divider(color: Colors.white),
 
                   /// 🔸 Questions row (centered)
                   Center(
@@ -319,8 +199,6 @@ class QuizCard extends StatelessWidget {
     );
   }
 }
-
-
 
 // class QuizCard extends StatelessWidget {
 //   final QuizCategoryResponse quiz;

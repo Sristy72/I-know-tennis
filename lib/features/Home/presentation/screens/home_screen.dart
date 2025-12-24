@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/common/widgets/app_scaffold.dart';
 import '../../../other/presentation/controller/dashboard_controller.dart';
+import '../../../profile/controller/profile_controller.dart';
 import '../controller/home_controller.dart';
 import '../widget/bottom_app_bar.dart';
 import '../widget/quiz_card_widget.dart';
@@ -41,13 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      // bottomNavigationBar: AppBottomNavBar(
-      //   currentIndex: 0, // Change dynamically as needed
-      //   onTap: (index) {
-      //     // Handle navigation here, e.g., using Get.to() or setState
-      //     print('Tapped index: $index');
-      //   },
-      // ),
     );
   }
 }
@@ -56,46 +50,75 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
+    final ProfileController profileController = Get.find<ProfileController>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 22,
-            backgroundImage: AssetImage('assets/images/avatar.png'),
-          ),
-          const SizedBox(width: 12),
-          Obx(
-            () => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Obx(() {
+        final user = profileController.userInfo.value;
+        final String displayName = user?.fullName ?? 'Loading...';
+        final String avatarUrl = user?.avatar ?? '';
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Left side: Avatar and Name
+            Row(
               children: [
-                Text(
-                  controller.userName.value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFFFFFFFF),
-                  ),
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.grey.shade800,
+                  backgroundImage: avatarUrl.isNotEmpty
+                      ? NetworkImage(avatarUrl)
+                      : const AssetImage('assets/images/Container.png')
+                            as ImageProvider,
+                  child: avatarUrl.isEmpty
+                      ? const Icon(
+                          Icons.person,
+                          size: 30,
+                          color: Colors.white70,
+                        )
+                      : null,
                 ),
-                const Text(
-                  'Welcome back',
-                  style: TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                  ),
+                const SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      displayName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                    ),
+                    const Text(
+                      'Welcome back',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFFFFFFFF),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.notifications_none,
-            size: 28,
-            color: Color(0xFFFFFFFF),
-          ),
-        ],
-      ),
+
+            // Right side: Notification icon
+            IconButton(
+              onPressed: () {
+                // Handle notification tap here
+                print('Notification tapped');
+              },
+              icon: const Icon(
+                Icons.notifications_none,
+                size: 28,
+                color: Color(0xFFFFFFFF),
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -108,23 +131,85 @@ class _ProgressCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
           gradient: const LinearGradient(
-            colors: [Color(0xFF4D82EBCC), Color(0xFF4D82EBCC)],
+            colors: [Color(0xFF709FFF), Color(0xFF1976D2)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            _ProgressItem(title: 'Quizzes', value: '12'),
-            _ProgressItem(title: 'Points', value: '850'),
-            _ProgressItem(title: 'Leaderboard', value: '1'),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Your Progress Stats', // This is your title
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 16), // Space between title and stats
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
+                _buildStat('850', 'Points', const Color(0xFFFFC34D)),
+                _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildStat(String value, String label, Color color) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(
+            color: color,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+      ],
+    );
+  }
 }
+
+// class _ProgressCard extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 16),
+//       child: Container(
+//         padding: const EdgeInsets.all(16),
+
+//         decoration: BoxDecoration(
+//           gradient: const LinearGradient(
+//             colors: [Color(0xFF709FFF), Color(0xFF1976D2)],
+//             begin: Alignment.topLeft,
+//             end: Alignment.bottomRight,
+//           ),
+//           borderRadius: BorderRadius.circular(8),
+//         ),
+
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
+//             _buildStat('850', 'Points', const Color(0xFFFFC34D)),
+//             _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _ProgressItem extends StatelessWidget {
   final String title;
@@ -151,7 +236,29 @@ class _ProgressItem extends StatelessWidget {
   }
 }
 
-
+Widget _buildStat(String value, String label, Color color) {
+  return Column(
+    children: [
+      Text(
+        value,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: color,
+        ),
+      ),
+      const SizedBox(height: 8),
+      Text(
+        label,
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.white,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    ],
+  );
+}
 // class _QuizSection extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
@@ -236,9 +343,8 @@ class _QuizSection extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                      // Get.find<DashboardController>().changeTab(1);
-                   Get.offAll(() => DashboardScreen(initialIndex: 1));
-
+                    // Get.find<DashboardController>().changeTab(1);
+                    Get.offAll(() => DashboardScreen(initialIndex: 1));
                   },
                   child: const Text(
                     'See All',
@@ -269,15 +375,13 @@ class _QuizSection extends StatelessWidget {
                 return GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: previewQuizzes.length,
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 14,
                     mainAxisSpacing: 14,
                     childAspectRatio: 0.65,
                   ),
-                  itemBuilder: (_, i) =>
-                      QuizCard(quiz: previewQuizzes[i]),
+                  itemBuilder: (_, i) => QuizCard(quiz: previewQuizzes[i]),
                 );
               }),
             ),
