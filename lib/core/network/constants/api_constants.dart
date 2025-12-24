@@ -1,6 +1,6 @@
 class ApiConstants {
   /// [Base Configuration]
-  static const String baseDomain = 'http://10.10.5.33:8000';//eshita
+  static const String baseDomain = 'http://10.10.5.53:8000';//eshita
   static const String baseUrl = '$baseDomain/api/v1';
 
 

@@ -30,13 +30,34 @@ class HomeRepositoryImpl implements HomeRepository {
     );
   }
 
-  @override
-  NetworkResult<List<QuizCategoryResponse>> getAllQuizCat() {
-    return _apiClient.get(
-      ApiConstants.home.getCategories,
-      fromJsonT: (json) => (json as List)
+  // @override
+  // NetworkResult<List<QuizCategoryResponse>> getAllQuizCat() {
+  //   return _apiClient.get(
+  //     ApiConstants.home.getCategories,
+  //     fromJsonT: (json) => (json as List)
+  //         .map((item) => QuizCategoryResponse.fromJson(item))
+  //         .toList(),
+  //   );
+  // }
+
+@override
+NetworkResult<List<QuizCategoryResponse>> getAllQuizCat() {
+  return _apiClient.get(
+    ApiConstants.home.getCategories,
+    fromJsonT: (json) {
+      // Ensure json is a List
+      if (json is! List) {
+        // You can log or handle unexpected format
+        return <QuizCategoryResponse>[];
+      }
+
+      return json
+          .whereType<Map<String, dynamic>>() // This filters nulls AND ensures it's a Map
           .map((item) => QuizCategoryResponse.fromJson(item))
-          .toList(),
-    );
-  }
+          .toList();
+    },
+  );
+}
+
+
   }
