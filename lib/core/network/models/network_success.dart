@@ -1,11 +1,12 @@
-// lib/core/network/models/network_success.dart
 import 'package:equatable/equatable.dart';
+
+import 'pagination_model.dart';
 
 class NetworkSuccess<T> extends Equatable {
   final T data;
   final String message;
   final int statusCode;
-  final T? pagination;
+  final PaginationModel? pagination;
 
   const NetworkSuccess({
     required this.data,
@@ -56,3 +57,4 @@ class RetrievedSuccess<T> extends NetworkSuccess<T> {
     super.statusCode = 200,
   });
 }
+
