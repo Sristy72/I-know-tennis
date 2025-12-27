@@ -31,15 +31,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppScaffold(
       removePadding: true,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Header(),
-            SizedBox(height: 16),
-            _ProgressCard(),
-            SizedBox(height: 20),
-            _QuizSection(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _Header(),
+              const SizedBox(height: 16),
+              _ProgressCard(),
+              const SizedBox(height: 20),
+              _QuizSection(),
+            ],
+          ),
         ),
       ),
     );
@@ -259,6 +260,83 @@ Widget _buildStat(String value, String label, Color color) {
     ],
   );
 }
+
+class _QuizSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Find a quiz',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFFFFFFFF),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.offAll(() => DashboardScreen(initialIndex: 1));
+                },
+                child: const Text(
+                  'See All',
+                  style: TextStyle(
+                    color: Color(0xFF3F7FFF),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 12),
+
+          /// Grid (ONLY 4 ITEMS)
+          Obx(() {
+            final allQuizzes = controller.quizCat;
+            final previewQuizzes = allQuizzes.take(4).toList(); // ⭐ LIMIT HERE
+
+            if (previewQuizzes.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 40),
+                child: Center(
+                  child: Text(
+                    "No quizzes available",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+            }
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: previewQuizzes.length, // ✅ max 4
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 14,
+                mainAxisSpacing: 14,
+                childAspectRatio: 0.58,
+              ),
+              itemBuilder: (_, i) => QuizCard(quiz: previewQuizzes[i]),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
 // class _QuizSection extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
@@ -272,8 +350,8 @@ Widget _buildStat(String value, String label, Color color) {
 //           children: [
 //             Row(
 //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: const [
-//                 Text(
+//               children: [
+//                 const Text(
 //                   'Find a quiz',
 //                   style: TextStyle(
 //                     fontSize: 18,
@@ -281,35 +359,47 @@ Widget _buildStat(String value, String label, Color color) {
 //                     color: Color(0xFFFFFFFF),
 //                   ),
 //                 ),
-//                 Text(
-//                   'See All',
-//                   style: TextStyle(
-//                     color: Color(0xFF3F7FFF),
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w500,
+//                 GestureDetector(
+//                   onTap: () {
+//                     // Get.find<DashboardController>().changeTab(1);
+//                     Get.offAll(() => DashboardScreen(initialIndex: 1));
+//                   },
+//                   child: const Text(
+//                     'See All',
+//                     style: TextStyle(
+//                       color: Color(0xFF3F7FFF),
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w500,
+//                     ),
 //                   ),
 //                 ),
 //               ],
 //             ),
 //             const SizedBox(height: 12),
-//             // Remove the extra Expanded here
 //             Expanded(
 //               child: Obx(() {
-//                 final quizList = controller.quizCat.value;
+//                 final allQuizzes = controller.quizCat;
+//                 final previewQuizzes = allQuizzes.take(4).toList();
 
-//                 if (quizList.isEmpty) {
-//                   return const Center(child: Text("No quizzes available"));
+//                 if (previewQuizzes.isEmpty) {
+//                   return const Center(
+//                     child: Text(
+//                       "No quizzes available",
+//                       style: TextStyle(color: Colors.white),
+//                     ),
+//                   );
 //                 }
 
 //                 return GridView.builder(
-//                   itemCount: quizList.length,
+//                   physics: const NeverScrollableScrollPhysics(),
+//                   itemCount: previewQuizzes.length,
 //                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
 //                     crossAxisCount: 2,
 //                     crossAxisSpacing: 14,
 //                     mainAxisSpacing: 14,
 //                     childAspectRatio: 0.65,
 //                   ),
-//                   itemBuilder: (_, i) => QuizCard(quiz: quizList[i]),
+//                   itemBuilder: (_, i) => QuizCard(quiz: previewQuizzes[i]),
 //                 );
 //               }),
 //             ),
@@ -319,75 +409,3 @@ Widget _buildStat(String value, String label, Color color) {
 //     );
 //   }
 // }
-class _QuizSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.find<HomeController>();
-
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Find a quiz',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // Get.find<DashboardController>().changeTab(1);
-                    Get.offAll(() => DashboardScreen(initialIndex: 1));
-                  },
-                  child: const Text(
-                    'See All',
-                    style: TextStyle(
-                      color: Color(0xFF3F7FFF),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: Obx(() {
-                final allQuizzes = controller.quizCat;
-                final previewQuizzes = allQuizzes.take(4).toList();
-
-                if (previewQuizzes.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      "No quizzes available",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                }
-
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: previewQuizzes.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 14,
-                    childAspectRatio: 0.65,
-                  ),
-                  itemBuilder: (_, i) => QuizCard(quiz: previewQuizzes[i]),
-                );
-              }),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

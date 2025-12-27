@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import '../../data/model/top_user_model.dart';
 
 class LeaderboardRow extends StatelessWidget {
@@ -14,16 +12,20 @@ class LeaderboardRow extends StatelessWidget {
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFF0E2A63),
-        borderRadius: BorderRadius.circular(14),
+        color: Colors.transparent, // make background transparent
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: const Color(0xFF2660EF), // blue border color
+          width: 2, // border thickness
+        ),
       ),
       child: Row(
         children: [
           Text("#${user.rank}",
-              style: const TextStyle(color: Colors.white70)),
+              style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.bold)),
           const SizedBox(width: 12),
           const CircleAvatar(
-            radius: 18,
+            radius: 25,
             backgroundImage: NetworkImage("https://i.pravatar.cc/150"),
           ),
           const SizedBox(width: 12),
@@ -34,14 +36,14 @@ class LeaderboardRow extends StatelessWidget {
               children: const [
                 Text("Username",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600)),
+                        color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 14, )),
                 Text("@username",
-                    style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.w400)),
               ],
             ),
           ),
           Text("${user.score}",
-              style: const TextStyle(color: Colors.white)),
+              style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.w700)),
         ],
       ),
     );
