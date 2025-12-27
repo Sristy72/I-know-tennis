@@ -4,6 +4,7 @@ class TopUser {
   final int rank;
   final String image;
   final bool isYou;
+  final String email;
 
   TopUser({
     required this.name,
@@ -11,6 +12,7 @@ class TopUser {
     required this.rank,
     required this.image,
     this.isYou = false,
+    required this.email,
   });
 }
 
