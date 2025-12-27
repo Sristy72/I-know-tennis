@@ -22,11 +22,11 @@ class ProfileController extends BaseController {
   final MultiFormDataManager _multiFormDataManager = MultiFormDataManager();
   final RxList<GetAllSubscriptionResponseModel> allSubs = <GetAllSubscriptionResponseModel>[].obs;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchProfile(); //Fetch when controller is created
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProfile(); //Fetch when controller is created
+  }
 
   Future<void> fetchProfile() async {
     final userId = await _authStorageService.getUserId();
