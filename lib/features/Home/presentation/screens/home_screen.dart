@@ -11,7 +11,7 @@ import '../widget/bottom_app_bar.dart';
 import '../widget/quiz_card_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     controller.fetchCategories();
+    
   }
 
   @override
