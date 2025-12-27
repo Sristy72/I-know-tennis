@@ -16,13 +16,14 @@ void setupRepository() {
   );
 
   Get.lazyPut<AttemptQuizRepository>(
-      () => AttemptQuizRepositoryImpl(apiClient: Get.find()),
-    fenix: true
+    () => AttemptQuizRepositoryImpl(apiClient: Get.find()),
+    fenix: true,
+  );
   Get.lazyPut<ProfileRepository>(
     () => ProfileRepositoryImpl(apiClient: Get.find()),
     fenix: true,
   );
-    Get.lazyPut<HomeRepository>(
+  Get.lazyPut<HomeRepository>(
     () => HomeRepositoryImpl(apiClient: Get.find()),
     fenix: true,
   );

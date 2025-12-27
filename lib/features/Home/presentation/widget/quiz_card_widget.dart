@@ -98,6 +98,8 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/features/Home/data/model/quiz_category_response_model.dart';
+import 'package:get/get.dart';
+import '../../../quiz/presentation/screens/start_quiz_screen.dart';
 import '../../data/model/quiz_response_model.dart';
 
 // class QuizCard extends StatelessWidget {
