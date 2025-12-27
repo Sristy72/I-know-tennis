@@ -11,7 +11,7 @@ class QuizCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => StartQuizScreen()),
+      onTap: () => Get.to(() => StartQuizScreen(quiz: quiz)),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),

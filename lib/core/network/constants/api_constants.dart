@@ -27,6 +27,7 @@ class ApiConstants {
   static UserEndpoints get user => UserEndpoints();
 
   static QuizEndpoints get quiz => QuizEndpoints();
+  static PlayQuizEndpoints get playQuiz => PlayQuizEndpoints();
   static LeagueEndpoints get league => LeagueEndpoints();
 
   static ContactEndpoints get contact => ContactEndpoints();
@@ -85,6 +86,11 @@ class UserEndpoints {
 class QuizEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/quiz';
   final String getQuiz = _base;
+}
+
+class PlayQuizEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/play-quiz';
+  final String submitQuiz = '$_base/submit';
 }
 
 class LeagueEndpoints {

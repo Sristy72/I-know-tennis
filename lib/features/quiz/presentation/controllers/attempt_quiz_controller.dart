@@ -1,34 +1,82 @@
 import 'package:flutter_iknow_tennis/core/base/base_controller.dart';
+import 'package:flutter_iknow_tennis/core/network/models/pagination_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/categorical_quiz_response_model.dart';
-import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/attempt_quiz_repository.dart';
-import 'package:flutx_core/flutx_core.dart';
+import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repository.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/complete_quiz_screen.dart';
 import 'package:get/get.dart';
 
+import '../../data/models/submit_quiz_request_model.dart';
+
 class AttemptQuizController extends BaseController{
-  final AttemptQuizRepository _attemptQuizRepository;
+  final QuizRepository _quizRepository;
 
   RxList<CategoricalQuizResponseModel> categoricalQuizList = <CategoricalQuizResponseModel>[].obs;
+  Rx<PaginationModel?> pagination = Rx<PaginationModel?>(null);
 
-  @override
-  void onInit() {
-    getQuiz();
-    super.onInit();
+  RxMap<String, int> selectedAnswerIndex = <String, int>{}.obs;
+
+  void selectAnswer({
+    required String questionId,
+    required int optionIndex,
+  }) {
+    selectedAnswerIndex[questionId] = optionIndex;
   }
 
-  AttemptQuizController(this._attemptQuizRepository);
 
-  Future<void> getQuiz() async{
+  AttemptQuizController(this._quizRepository);
+
+  Future<void> getQuiz({required String categoryName}) async{
     setLoading(true);
     setError('');
-    final result = await _attemptQuizRepository.getQuiz();
+    final result = await _quizRepository.getQuiz(categoryName: categoryName);
     result.fold((failure){
       setLoading(false);
       setError(failure.message);
       Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
     }, (success){
       setLoading(false);
-      DPrint.log("Quiz Pagination: ${success.pagination?.page ?? 1}");
+      pagination.value = success.pagination;
       categoricalQuizList.assignAll(success.data);
     });
   }
+
+  Future<void> submitQuiz({required String categoryId}) async{
+    setLoading(true);
+    setError('');
+    final List<Answers> answers = [];
+
+    for (final quiz in categoricalQuizList) {
+      final selectedIndex = selectedAnswerIndex[quiz.sId];
+
+      if (selectedIndex == null) continue;
+
+      final selectedOption = quiz.quizOptions![selectedIndex];
+
+      answers.add(
+        Answers(
+          questionId: quiz.sId,
+          selectedOption: selectedOption,
+        ),
+      );
+    }
+
+
+    final requestModel = SubmitQuizRequestModel(
+      categoryId: categoryId,
+      answers: answers,
+    );
+
+    final result = await _quizRepository.submitQuiz(requestModel);
+    result.fold((failure){
+      setLoading(false);
+      setError(failure.message);
+      Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
+    }, (success){
+      setLoading(false);
+      Get.to(() => CompleteQuizScreen());
+    });
+  }
+
+
+
 }

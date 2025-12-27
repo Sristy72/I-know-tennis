@@ -5,8 +5,12 @@ import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/attempt_quiz_screen.dart';
 import 'package:get/get.dart';
 
+import '../../../Home/data/model/quiz_category_response_model.dart';
+
 class StartQuizScreen extends StatelessWidget {
-  const StartQuizScreen({super.key});
+  const StartQuizScreen({super.key, required this.quiz});
+
+  final QuizCategoryResponse quiz;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +26,7 @@ class StartQuizScreen extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          foregroundColor: AppColors.primaryWhite,
         )),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -63,7 +68,7 @@ class StartQuizScreen extends StatelessWidget {
                         Spacer(),
                         Column(
                           children: [
-                            Text('20', style: TextStyle(
+                            Text('${quiz.quizCount}', style: TextStyle(
                               color: AppColors.textCyan,
                               fontWeight: FontWeight.w500,
                               fontSize: 18,
@@ -79,7 +84,7 @@ class StartQuizScreen extends StatelessWidget {
                         Spacer(),
                         Column(
                           children: [
-                            Text('100', style: TextStyle(
+                            Text('${quiz.quizPoint}', style: TextStyle(
                               color: AppColors.textAmber,
                               fontWeight: FontWeight.w500,
                               fontSize: 18,
@@ -100,7 +105,7 @@ class StartQuizScreen extends StatelessWidget {
               ),
               SizedBox(height: 12,),
               PrimaryButton(isGradient: false, onPressed: (){
-                Get.to(() => AttemptQuizScreen());
+                Get.to(() => AttemptQuizScreen(quiz: quiz,));
               }, child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
