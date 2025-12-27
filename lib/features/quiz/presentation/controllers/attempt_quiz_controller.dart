@@ -27,9 +27,8 @@ class AttemptQuizController extends BaseController{
       Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
     }, (success){
       setLoading(false);
-      DPrint.log("Quiz Pagination: ${success.pagination}");
+      DPrint.log("Quiz Pagination: ${success.pagination?.page ?? 1}");
       categoricalQuizList.assignAll(success.data);
-
     });
   }
 }
