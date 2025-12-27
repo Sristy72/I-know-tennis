@@ -5,28 +5,28 @@ import 'app_colors.dart';
 
 extension InputDecorationExtensions on BuildContext {
   InputDecoration get primaryInputDecoration => InputDecoration(
-    filled: true,
+    //filled: true,
     suffixIconColor: AppColors.textFieldLightGrey,
     fillColor: AppColors.primaryWhite,
     contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14.5),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(50),
-      borderSide: BorderSide(color: AppColors.textFieldLightLavender),
+      borderRadius: BorderRadius.circular(6),
+      borderSide: BorderSide(color: Colors.white),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(50),
-      borderSide: BorderSide(color: AppColors.textFieldLightLavender),
+      borderRadius: BorderRadius.circular(6),
+      borderSide: BorderSide(color: Colors.white),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(50),
-      borderSide: BorderSide(color: AppColors.textBlack, width: 1),
+      borderRadius: BorderRadius.circular(6),
+      borderSide: BorderSide(color: Colors.white, width: 1),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(6),
       borderSide: const BorderSide(color: AppColors.logoutRed, width: 1),
     ),
     focusedErrorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(6),
       borderSide: const BorderSide(color: AppColors.logoutRed, width: 1),
     ),
     hintStyle: TextStyle(

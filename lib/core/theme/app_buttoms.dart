@@ -39,16 +39,8 @@ class PrimaryButton extends StatelessWidget {
             height: height ?? 48,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              gradient: isGradient? const LinearGradient(
-                colors: [
-                  Color(0xFF23AF56),
-                  Color(0xFF5048E7),
-                  Color(0xFF23AF56),
-                ],
-              ) : null,
-              color: isGradient ? null : backgroundColor,
-              borderRadius: BorderRadius.circular(borderRadius),
-              border: isBorder ? Border.all(color: AppColors.textFieldLightLavender) : null,
+               color:  Color(0xFF2058E6),
+                   borderRadius: BorderRadius.circular(8)
             ),
             child: isLoading
                 ? const SizedBox(

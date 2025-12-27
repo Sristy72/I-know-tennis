@@ -8,6 +8,15 @@ void setupController() {
     () => AuthController(Get.find(), Get.find()),
     fenix: true,
   );
+    Get.lazyPut<ProfileController>(
+    () => ProfileController(),
+    fenix: true,
+  );
+      Get.lazyPut<HomeController>(
+    () => HomeController(Get.find()),
+    fenix: true,
+  );
+
 
   Get.lazyPut<AttemptQuizController>(
           () => AttemptQuizController(Get.find()),

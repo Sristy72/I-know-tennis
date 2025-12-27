@@ -11,15 +11,15 @@ class AppTheme {
       bodyColor: AppColors.textBlack,
       displayColor: AppColors.textBlack,
     ),
-    appBarTheme: AppBarTheme(
-      iconTheme: IconThemeData(color: AppColors.primaryWhite),
-      backgroundColor: AppColors.primaryGreen,
-      titleTextStyle: TextStyle(
-        fontSize: 24,
-        color: AppColors.primaryWhite,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
+    // appBarTheme: AppBarTheme(
+    //   iconTheme: IconThemeData(color: Colors.black),
+    //   //backgroundColor: Colors.transparent,
+    //   titleTextStyle: TextStyle(
+    //     fontSize: 24,
+    //     //color: AppColors.primaryWhite,
+    //     fontWeight: FontWeight.w600,
+    //   ),
+    // ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryGreen,
