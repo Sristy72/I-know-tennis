@@ -160,9 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Obx(
                     () => Checkbox(
                       value: rememberMeController.rememberMe.value,
-                      activeColor: Colors.blue,
+                      activeColor: Color(0xFF12B347),
                       // fill color when checked
-                      checkColor: Color(0xFF12B347),
+                      checkColor: Colors.black,
                       //  tick color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(2),
@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       side: MaterialStateBorderSide.resolveWith((states) {
                         if (states.contains(MaterialState.selected)) {
                           //  Border when checked
-                          return BorderSide(color: Color(0xFF12B347), width: 2);
+                          return BorderSide(color: Color(0xFFFFFFFF), width: 2);
                         }
                         // Border when unchecked
                         return BorderSide(color: Color(0xFFFFFFFF), width: 1);

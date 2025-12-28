@@ -1,7 +1,9 @@
+import 'package:flutter_iknow_tennis/features/auth/data/model/reset_change_password_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/forget_pass_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/signup_request_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/presentation/screens/reset_change_password_screen.dart';
 import 'package:flutter_iknow_tennis/features/auth/presentation/screens/otp_verification_screen.dart';
 import 'package:flutter_iknow_tennis/features/other/presentation/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,7 @@ class AuthController extends BaseController {
   final AuthRepository _authRepository;
   final AuthStorageService _authStorageService;
   bool _isSuccess = false;
+  RxBool isAccepted = false.obs;
 
   var isLoading = false.obs;
   var errorMessage = "".obs;
@@ -180,9 +183,36 @@ class AuthController extends BaseController {
       },
       (success) {
         DPrint.log("verify otp success result : ${success.data.message}");
-        // Get.to(SetNewPasswordScreen(email: email, otp: otp));
+        Get.to(ResetChangePasswordScreen(email: email));
         setLoading(false);
       },
     );
+  }
+
+    Future createNewPass(String email, String  password, String confirmPassword) async {
+
+    final request = ResetChangePasswordRequestModel(
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
+    final result = await _authRepository.createNewPassword(request);
+
+    result.fold(
+          (fail) {
+        setError(fail.message);
+        DPrint.log("New Password set failed result : ${fail.message}");
+      },
+          (success) {
+        DPrint.log(
+          "New Password set successfully result : ${success.message}",
+        );
+        Get.offAll(LoginScreen());
+      },
+    );
+  }
+
+   void toggle() {
+    isAccepted.value = !isAccepted.value;
   }
 }
