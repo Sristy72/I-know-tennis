@@ -59,27 +59,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // Profile Header with dynamic data
                     Obx(() {
                       final user = profileController.userInfo.value;
-                      final String displayName = user?.fullName ?? 'Loading...';
-                      final String avatarUrl = user?.avatar ?? '';
+
+                      if (user == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        );
+                      }
 
                       return Row(
                         children: [
                           CircleAvatar(
                             radius: 30,
                             backgroundColor: Colors.grey.shade800,
-                            backgroundImage: avatarUrl.isNotEmpty
-                                ? NetworkImage(avatarUrl)
-                                : const AssetImage('assets/images/Container.png') as ImageProvider,
-                            child: avatarUrl.isEmpty
-                                ? const Icon(Icons.person, size: 30, color: Colors.white70)
+                            backgroundImage: user.avatar.isNotEmpty
+                                ? NetworkImage(user.avatar)
                                 : null,
+
                           ),
                           const SizedBox(width: 16),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                displayName,
+                                user.fullName,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -124,14 +126,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
-                              _buildStat('850', 'Points', const Color(0xFFFFC34D)),
-                              _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
+                              Text('Leaderboard', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),),
+                              SizedBox(height: 16,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
+                                  _buildStat('850', 'Points', const Color(0xFFFFC34D)),
+                                  _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
+                                ],
+                              ),
                             ],
-                          ),
+                          )
                         ),
                       ),
                     ),

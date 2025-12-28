@@ -81,7 +81,7 @@ class ProfileController extends BaseController {
 
   Future<void> logout() async {
     await _authStorageService.clearAuthData();
-    Get.offAll(() => LoginScreen());
+    Get.to(() => LoginScreen());
   }
 
   // //
