@@ -249,7 +249,7 @@ class ApiClient {
           data: responseData,
           message: message,
           statusCode: statusCode,
-          pagination: baseResponse.pagination
+          pagination: baseResponse.pagination,
         ),
       );
     } on DioException catch (error) {
