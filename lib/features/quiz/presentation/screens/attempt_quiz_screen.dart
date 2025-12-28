@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_buttoms.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
+import 'package:flutter_iknow_tennis/features/quiz/data/models/start_quiz_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
 import 'package:get/get.dart';
-
-import '../../../Home/data/model/quiz_category_response_model.dart';
 
 class AttemptQuizScreen extends StatefulWidget {
   const AttemptQuizScreen({super.key, required this.quiz});
 
-  final QuizCategoryResponse quiz;
+  final Category quiz;
 
   @override
   State<AttemptQuizScreen> createState() => _AttemptQuizScreenState();
@@ -23,7 +22,7 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
   @override
   void initState() {
     _attemptQuizController.getQuiz(
-      categoryName: widget.quiz.quizCategoryName ?? '',
+      categoryName: widget.quiz.name ?? '',
     );
     super.initState();
   }

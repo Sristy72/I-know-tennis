@@ -1,6 +1,7 @@
 import 'package:flutter_iknow_tennis/core/base/base_controller.dart';
 import 'package:flutter_iknow_tennis/core/network/models/pagination_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/categorical_quiz_response_model.dart';
+import 'package:flutter_iknow_tennis/features/quiz/data/models/submit_quiz_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repository.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/complete_quiz_screen.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class AttemptQuizController extends BaseController{
 
   RxList<CategoricalQuizResponseModel> categoricalQuizList = <CategoricalQuizResponseModel>[].obs;
   Rx<PaginationModel?> pagination = Rx<PaginationModel?>(null);
+  Rx<SubmitQuizResponseModel?> submitQuizResponseModel = Rx<SubmitQuizResponseModel?>(null);
 
   RxMap<String, int> selectedAnswerIndex = <String, int>{}.obs;
 
@@ -72,6 +74,7 @@ class AttemptQuizController extends BaseController{
       setError(failure.message);
       Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
     }, (success){
+      submitQuizResponseModel.value = success.data;
       setLoading(false);
       Get.to(() => CompleteQuizScreen());
     });

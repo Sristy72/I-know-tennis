@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/features/Home/data/model/quiz_category_response_model.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/start_quiz_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/start_quiz_screen.dart';
 import 'package:get/get.dart';
 
@@ -8,10 +9,16 @@ class QuizCard extends StatelessWidget {
 
   const QuizCard({super.key, required this.quiz});
 
+
+
   @override
   Widget build(BuildContext context) {
+    final StartQuizController startQuizController = Get.find<StartQuizController>();
     return GestureDetector(
-      onTap: () => Get.to(() => StartQuizScreen(quiz: quiz)),
+      onTap: (){
+        startQuizController.startQuiz(categoryId: quiz.id ?? '');
+
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
