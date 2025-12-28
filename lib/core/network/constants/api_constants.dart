@@ -108,9 +108,9 @@ class ContactEndpoints {
 
 // New payment endpoints
 class PaymentEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/payment';
+  static const String _base = '${ApiConstants.baseUrl}/subscription-plan';
 
-  final String createPayment = '$_base/create-payment';
+  final String createPayment = '$_base/checkout';
 
   final String confirmPayment = '$_base/confirm-payment';
 }

@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/common/widgets/app_scaffold.dart'; // your existing path
+import '../../subscription/presentation/controller/subscription_controller.dart';
 import '../controller/profile_controller.dart';
 import '../widget/dialog.dart';
 import '../widget/subscription_card.dart';
 
-class SubscriptionScreen extends StatelessWidget {
-  const SubscriptionScreen({super.key});
+class SubscriptionScreen extends StatefulWidget {
+   SubscriptionScreen({super.key});
 
+  @override
+  State<SubscriptionScreen> createState() => _SubscriptionScreenState();
+ 
+}
+
+class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     final profileController = Get.find<ProfileController>();
+     final controller = Get.find<SubscriptionController>();
 
     // Fetch subscriptions when screen opens
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -123,7 +131,7 @@ class SubscriptionScreen extends StatelessWidget {
                         color: const Color(0xFFF3E8FF),
                         buttonText: 'Subscribe',
                         onSubscribe: () {
-                          // TODO: Add real purchase logic here (pass plan.id + "yearly")
+                          controller.subscribeToplan(plan);
                           showSubscriptionSuccessDialog();
                         },
                       ),

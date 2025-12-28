@@ -198,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildSettingsTile(
                         'assets/images/subscription.png',
                         'Subscription',
-                            () => Get.to(() => const SubscriptionScreen()),
+                            () => Get.to(() =>  SubscriptionScreen()),
                         'Manage your plan and billing',
                       ),
                       _buildSettingsTile(
