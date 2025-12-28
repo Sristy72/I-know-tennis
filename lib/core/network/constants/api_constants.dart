@@ -1,6 +1,7 @@
 class ApiConstants {
   /// [Base Configuration]
-  static const String baseDomain = 'http://10.10.5.33:8000';//eshita
+  // static const String baseDomain = 'http://10.10.5.53:8000';
+  static const String baseDomain = 'http://10.10.5.32:8000';
   static const String baseUrl = '$baseDomain/api/v1';
 
 
@@ -24,9 +25,8 @@ class ApiConstants {
   static AuthEndpoints get auth => AuthEndpoints();
 
   static UserEndpoints get user => UserEndpoints();
-  static NotificationEndpoints get notification => NotificationEndpoints();
 
-  static ProductEndpoints get product => ProductEndpoints();
+  static QuizEndpoints get quiz => QuizEndpoints();
   static LeagueEndpoints get league => LeagueEndpoints();
 
   static ContactEndpoints get contact => ContactEndpoints();
@@ -35,6 +35,7 @@ class ApiConstants {
   static RecruiterAccountApi get recruiter => RecruiterAccountApi();
 
   static ProfileEndpoints get profile => ProfileEndpoints();
+  static HomeEndpoints get home => HomeEndpoints();
 }
 
 class RecruiterAccountApi {
@@ -81,17 +82,9 @@ class UserEndpoints {
   // final String create = '$_base/create';
 }
 
-class NotificationEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/notification';
-
-  final String getnotifications = '$_base/getnotifications';
-}
-
-class ProductEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/products';
-  final String getProducts = _base;
-
-  final String create = '$_base/create';
+class QuizEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/quiz';
+  final String getQuiz = _base;
 }
 
 class LeagueEndpoints {
@@ -107,9 +100,9 @@ class ContactEndpoints {
 
 // New payment endpoints
 class PaymentEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/payment';
+  static const String _base = '${ApiConstants.baseUrl}/subscription-plan';
 
-  final String createPayment = '$_base/create-payment';
+  final String createPayment = '$_base/checkout';
 
   final String confirmPayment = '$_base/confirm-payment';
 }
@@ -119,4 +112,10 @@ class ProfileEndpoints {
   String fetchProfile(String userId) => '$_base/$userId';
   final String updateProfile = '$_base/profile';
   final String fetchAllSubs = '${ApiConstants.baseUrl}/subscription-plan';
+}
+
+class HomeEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/quiz';
+  final String getQuiz = _base;
+  final String getCategories = '${ApiConstants.baseUrl}/quiz-categories';
 }

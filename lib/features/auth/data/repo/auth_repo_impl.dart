@@ -6,11 +6,13 @@ import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_request
 import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_response_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/signup_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/signup_response_model.dart';
+import 'package:flutter_iknow_tennis/features/profile/models/request/change_pass_request_model.dart';
 
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/constants/api_constants.dart';
 import '../../../../core/network/network_result.dart';
 import '../../domain/auth_repo.dart';
+import '../model/reset_change_password_request_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final ApiClient _apiClient;
@@ -57,6 +59,14 @@ class AuthRepositoryImpl implements AuthRepository {
       data: request.toJson(),
       fromJsonT: (json) => OtpVerifyResponseModel.fromJson(json),
     );
+  }
+
+    @override
+  NetworkResult<void> createNewPassword(ResetChangePasswordRequestModel request) {
+    return _apiClient.post(
+        ApiConstants.auth.otpVerifyResetPassword,
+        data: request.toJson(),
+        fromJsonT: (json) {});
   }
 
  }

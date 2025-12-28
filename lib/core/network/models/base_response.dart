@@ -1,17 +1,20 @@
 // lib/core/network/models/base_response.dart
 
 import 'error_source.dart';
+import 'pagination_model.dart';
 
 class BaseResponse<T> {
   final bool success;
   final String message;
   final T? data;
+  final PaginationModel? pagination;
   final List<ErrorSource>? errorSources;
 
   BaseResponse({
     required this.success,
     required this.message,
     this.data,
+    this.pagination,
     this.errorSources,
   });
 
@@ -47,10 +50,20 @@ class BaseResponse<T> {
       }
     }
 
+    PaginationModel? parsedPagination;
+    if (json['pagination'] != null) {
+      try {
+        parsedPagination = PaginationModel.fromJson(json['pagination']);
+      } catch (e) {
+        parsedPagination = null;
+      }
+    }
+
     return BaseResponse<T>(
       success: json['success'] ?? json['status'] ?? false,
       message: json['message'] ?? '',
       data: parsedData,
+      pagination: parsedPagination,
       errorSources: json['errorSources'] != null
           ? (json['errorSources'] as List)
                 .map((e) => ErrorSource.fromJson(e))

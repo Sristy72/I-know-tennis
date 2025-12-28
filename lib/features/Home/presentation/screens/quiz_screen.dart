@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,14 +6,14 @@ import '../controller/home_controller.dart';
 import '../widget/quiz_card_widget.dart';
 
 class QuizScreen extends StatefulWidget {
-  QuizScreen({super.key});
+  const QuizScreen({super.key});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  final controller = Get.put(HomeController());
+  final controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +41,11 @@ class _QuizHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           const Text(
             "Find a quiz",
             style: TextStyle(
               fontSize: 18,
-           
+
               fontWeight: FontWeight.w500,
               color: Color(0xFFFFFFFF),
             ),
@@ -66,16 +64,12 @@ class _QuizHeader extends StatelessWidget {
               color: Color(0xFFFFFFFF),
             ),
           ),
-
-
-       
         ],
       ),
     );
   }
-
-  
 }
+
 class _QuizSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -83,18 +77,32 @@ class _QuizSection extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Obx(
-        () => GridView.builder(
-          itemCount: controller.quizzes.length,
+      child: Obx(() {
+        final quizList = controller.quizCat.value;
+
+        return GridView.builder(
+          itemCount: quizList.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 14,
             mainAxisSpacing: 14,
             childAspectRatio: .65,
           ),
-          itemBuilder: (_, i) => QuizCard(quiz: controller.quizzes[i]),
-        ),
-      ),
+          itemBuilder: (_, i) => QuizCard(quiz: quizList[i]),
+        );
+      }),
+      // Obx(
+      //   () => GridView.builder(
+      //     itemCount: controller.quizzes.length,
+      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //       crossAxisCount: 2,
+      //       crossAxisSpacing: 14,
+      //       mainAxisSpacing: 14,
+      //       childAspectRatio: .65,
+      //     ),
+      //     itemBuilder: (_, i) => QuizCard(quiz: controller.quizzes[i]),
+      //   ),
+      // ),
     );
   }
 }
