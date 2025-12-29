@@ -105,4 +105,21 @@ class AuthStorageService {
   Future<String?> getRole() async {
     return await _secureStorage.read(key: KeyConstants.role);
   }
+
+  // ---------------- ONBOARDING ----------------
+
+Future<void> setOnboardingSeen() async {
+  await _secureStorage.write(
+    key: KeyConstants.onboardingSeen,
+    value: 'true',
+  );
+}
+
+Future<bool> hasSeenOnboarding() async {
+  final value = await _secureStorage.read(
+    key: KeyConstants.onboardingSeen,
+  );
+  return value == 'true';
+}
+
 }

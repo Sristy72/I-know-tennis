@@ -2,6 +2,8 @@ import 'package:flutter_iknow_tennis/features/auth/data/model/login_request_mode
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_response_model.dart';
 
 import '../../../core/network/network_result.dart';
+import '../data/model/refresh_token_request_model.dart';
+import '../data/model/refresh_token_response_model.dart';
 import '../data/model/reset_change_password_request_model.dart';
 import '../data/model/forget_pass_request_model.dart';
 import '../data/model/forget_pass_response_model.dart';
@@ -19,5 +21,10 @@ abstract class AuthRepository {
   NetworkResult<OtpVerifyResponseModel> verifyOtp(
     OtpVerifyRequestModel request,
   );
-  NetworkResult<void> createNewPassword(ResetChangePasswordRequestModel request);
+  NetworkResult<void> createNewPassword(
+    ResetChangePasswordRequestModel request,
+  );
+  NetworkResult<RefreshTokenResponseModel> refreshToken(
+    RefreshTokenRequestModel request,
+  );
 }
