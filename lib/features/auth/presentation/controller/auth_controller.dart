@@ -13,6 +13,7 @@ import '../../../../core/network/services/auth_storage_service.dart';
 import '../../../../core/network/services/secure_store_services.dart';
 import '../../../../core/utils/debug_print.dart';
 import '../../../Home/presentation/screens/home_screen.dart';
+import '../../data/model/refresh_token_request_model.dart';
 import '../../domain/auth_repo.dart';
 import '../screens/login_screen.dart';
 import 'remember_me_controller.dart';
@@ -215,4 +216,44 @@ class AuthController extends BaseController {
    void toggle() {
     isAccepted.value = !isAccepted.value;
   }
+
+    Future<bool> refreshToken() async {
+  try {
+    setLoading(true);
+
+    final refreshToken = await _authStorageService.getRefreshToken();
+    if (refreshToken == null || refreshToken.isEmpty) {
+      setLoading(false);
+      return false;
+    }
+
+    final request = RefreshTokenRequestModel(refreshToken: refreshToken);
+    final result = await _authRepository.refreshToken(request);
+
+    return await result.fold(
+      (fail) async {
+        DPrint.log("Refresh token failed: ${fail.message}");
+        setLoading(false);
+        return false;
+      },
+      (success) async {
+        DPrint.log("Refresh token success");
+
+        await _authStorageService.storeAccessToken(
+          success.data.token.accessToken,
+        );
+        await _authStorageService.storeRefreshToken(
+          success.data.token.refreshToken,
+        );
+
+        setLoading(false);
+        return true;
+      },
+    );
+  } catch (e) {
+    setLoading(false);
+    return false;
+  }
+}
+
 }

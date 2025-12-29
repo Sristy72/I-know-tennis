@@ -50,7 +50,7 @@ class AuthEndpoints {
   final String register = '$_base/signup';
   final String forget = '$_base/forgot-password';
   final String verify = '$_base/verify-otp';
-  final String refreshToken = '${ApiConstants.baseUrl}/auth/refresh-token';
+  final String refreshToken = '${ApiConstants.baseUrl}/auth/reset-refresh-token';
 
   // Password Reset Flow
   final String resetPass = '$_base/forget'; // Send OTP for forgot password

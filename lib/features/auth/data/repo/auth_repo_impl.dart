@@ -12,6 +12,8 @@ import '../../../../core/network/api_client.dart';
 import '../../../../core/network/constants/api_constants.dart';
 import '../../../../core/network/network_result.dart';
 import '../../domain/auth_repo.dart';
+import '../model/refresh_token_request_model.dart';
+import '../model/refresh_token_response_model.dart';
 import '../model/reset_change_password_request_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -67,6 +69,17 @@ class AuthRepositoryImpl implements AuthRepository {
         ApiConstants.auth.otpVerifyResetPassword,
         data: request.toJson(),
         fromJsonT: (json) {});
+  }
+
+    @override
+  NetworkResult<RefreshTokenResponseModel> refreshToken(
+    RefreshTokenRequestModel request,
+  ) {
+    return _apiClient.post(
+      ApiConstants.auth.refreshToken,
+      data: request.toJson(),
+      fromJsonT: (json) => RefreshTokenResponseModel.fromJson(json),
+    );
   }
 
  }
