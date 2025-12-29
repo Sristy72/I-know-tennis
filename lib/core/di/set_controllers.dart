@@ -1,5 +1,6 @@
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/complete_quiz_controller.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/view_answer_controller.dart';
 import 'package:get/get.dart';
 
 import '../../features/Home/presentation/controller/home_controller.dart';
@@ -34,6 +35,11 @@ void setupController() {
 
   Get.lazyPut<CompleteQuizController>(
           () => CompleteQuizController(Get.find()),
+    fenix: true,
+  );
+
+  Get.lazyPut<ViewAnswerController>(
+      () => ViewAnswerController(Get.find()),
     fenix: true,
   );
 }

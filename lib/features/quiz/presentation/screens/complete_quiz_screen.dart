@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_buttoms.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
+import 'package:flutter_iknow_tennis/features/other/presentation/screens/dashboard_screen.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/complete_quiz_controller.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/attempt_quiz_screen.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/view_answer_screen.dart';
 import 'package:get/get.dart';
+
 
 class CompleteQuizScreen extends StatefulWidget {
   const CompleteQuizScreen({super.key});
@@ -14,6 +18,7 @@ class CompleteQuizScreen extends StatefulWidget {
 
 class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
   final CompleteQuizController _completeQuizController = Get.find<CompleteQuizController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +71,12 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('${quizSummary?.correctAnswers}', style: TextStyle(
-                            color: AppColors.textGreen,
+                            color: AppColors.primaryGreen,
                             fontSize: 18,
                           ),),
                           SizedBox(height: 4,),
                           Text('Correct', style: TextStyle(
-                            color: AppColors.textGreen,
+                            color: AppColors.primaryGreen,
                             fontSize: 18,
                           ),)
                         ],
@@ -95,12 +100,12 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('${quizSummary?.incorrectAnswers}', style: TextStyle(
-                            color: AppColors.textRed,
+                            color: AppColors.primaryRed,
                             fontSize: 18,
                           ),),
                           SizedBox(height: 4,),
                           Text('Incorrect', style: TextStyle(
-                            color: AppColors.textRed,
+                            color: AppColors.primaryRed,
                             fontSize: 18,
                           ),)
                         ],
@@ -144,7 +149,9 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: SecondaryButton(onPressed: (){}, child: Row(
+                    child: SecondaryButton(onPressed: (){
+                      Get.to(() => AttemptQuizScreen());
+                    }, child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.restart_alt, color: AppColors.primaryWhite, size: 24,),
@@ -160,7 +167,9 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
                   Expanded(
                     child: SecondaryButton(
                       backgroundColor: Colors.transparent,
-                      onPressed: (){}, child: Row(
+                      onPressed: (){
+                        Get.to(() => ViewAnswerScreen(attemptId: quizSummary?.attemptId ?? ''));
+                      }, child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.visibility_off_outlined, color: AppColors.primaryWhite, size: 24,),
@@ -177,7 +186,9 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
               ),
               const SizedBox(height: 24),
 
-              PrimaryButton(isGradient: false, onPressed: (){}, child: Text('Back to Home', style: TextStyle(
+              PrimaryButton(isGradient: false, onPressed: (){
+                Get.offAll(() => DashboardScreen());
+              }, child: Text('Back to Home', style: TextStyle(
                 color: AppColors.primaryWhite,
                 fontSize: 16,
               ),)
@@ -208,7 +219,7 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
             strokeWidth: stroke,
             backgroundColor: Colors.transparent,
             valueColor: AlwaysStoppedAnimation(
-              AppColors.textRed,
+              AppColors.primaryRed,
             ),
           ),
         ),
@@ -221,7 +232,7 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
             strokeWidth: stroke,
             backgroundColor: Colors.transparent,
             valueColor: const AlwaysStoppedAnimation(
-              AppColors.textGreen // Green ring
+              AppColors.primaryGreen // Green ring
             ),
           ),
         ),
@@ -229,8 +240,8 @@ class _CompleteQuizScreenState extends State<CompleteQuizScreen> {
         // Center text
         Text(
           '$percentage%',
-          style: const TextStyle(
-            color: Colors.white,
+          style:  TextStyle(
+            color: AppColors.primaryWhite,
             fontSize: 28,
             fontWeight: FontWeight.w600,
           ),

@@ -5,6 +5,7 @@ import 'package:flutter_iknow_tennis/features/quiz/data/models/categorical_quiz_
 import 'package:flutter_iknow_tennis/features/quiz/data/models/quiz_summary_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/start_quiz_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/submit_quiz_request_model.dart';
+import 'package:flutter_iknow_tennis/features/quiz/data/models/view_result_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repository.dart';
 
 import '../models/submit_quiz_response_model.dart';
@@ -55,5 +56,10 @@ class QuizRepositoryImpl implements QuizRepository {
   @override
   NetworkResult<QuizSummaryResponseModel> quizSummary({required String attemptId}) {
     return _apiClient.get(ApiConstants.quizStatus.attemptQuizSummary(attemptId), fromJsonT: (json) => QuizSummaryResponseModel.fromJson(json));
+  }
+
+  @override
+  NetworkResult<ViewResultResponseModel> viewResult({required String attemptId}) {
+    return _apiClient.get(ApiConstants.playQuiz.viewResult(attemptId), fromJsonT: (json) => ViewResultResponseModel.fromJson(json));
   }
 }

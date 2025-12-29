@@ -93,6 +93,7 @@ class PlayQuizEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/play-quiz';
   final String submitQuiz = '$_base/submit';
   String startQuiz(String categoryId) =>'$_base/category/$categoryId';
+  String viewResult(String attemptId) =>'$_base/result/$attemptId';
 }
 
 class QuizStatusEndpoints {

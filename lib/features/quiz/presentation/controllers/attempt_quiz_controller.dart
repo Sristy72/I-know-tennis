@@ -76,7 +76,7 @@ class AttemptQuizController extends BaseController{
     }, (success){
       submitQuizResponseModel.value = success.data;
       setLoading(false);
-      Get.to(() => CompleteQuizScreen());
+      Get.off(() => CompleteQuizScreen());
     });
   }
 

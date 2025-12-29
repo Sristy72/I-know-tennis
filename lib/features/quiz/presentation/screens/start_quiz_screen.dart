@@ -5,7 +5,6 @@ import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/start_quiz_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/attempt_quiz_screen.dart';
 import 'package:get/get.dart';
-import '../../data/models/start_quiz_response_model.dart';
 
 class StartQuizScreen extends StatefulWidget {
   const StartQuizScreen({super.key});
@@ -22,25 +21,25 @@ class _StartQuizScreenState extends State<StartQuizScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       removePadding: true,
-      body: Column(
-        children: [
-          SafeArea(
-            child: AppBar(
-              title: Text(
-                "Serving & Receiving Quiz",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+      body: Obx((){
+        final quizInfo = startQuizController.quizInfo.value;
+        return Column(
+          children: [
+            SafeArea(
+              child: AppBar(
+                title: Text(
+                  '${quizInfo?.category?.name}',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                ),
+                centerTitle: true,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                foregroundColor: AppColors.primaryWhite,
               ),
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              foregroundColor: AppColors.primaryWhite,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Obx(() {
-              final quizInfo = startQuizController.quizInfo.value;
-              return Column(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
                 children: [
                   Text(
                     'Test your knowledge of USTA Tennis Association official rules.',
@@ -139,9 +138,7 @@ class _StartQuizScreenState extends State<StartQuizScreen> {
                     isGradient: false,
                     onPressed: () {
                       Get.to(
-                        () => AttemptQuizScreen(
-                          quiz: quizInfo?.category ?? Category(),
-                        ),
+                            () => AttemptQuizScreen(),
                       );
                     },
                     child: Row(
@@ -164,11 +161,13 @@ class _StartQuizScreenState extends State<StartQuizScreen> {
                     ),
                   ),
                 ],
-              );
-            }),
-          ),
-        ],
-      ),
+              ),
+            ),
+          ],
+        );
+      })
+
+
     );
   }
 }

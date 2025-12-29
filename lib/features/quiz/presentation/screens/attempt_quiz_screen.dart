@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_buttoms.dart';
 import 'package:flutter_iknow_tennis/core/theme/app_colors.dart';
-import 'package:flutter_iknow_tennis/features/quiz/data/models/start_quiz_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/start_quiz_controller.dart';
 import 'package:get/get.dart';
 
 class AttemptQuizScreen extends StatefulWidget {
-  const AttemptQuizScreen({super.key, required this.quiz});
-
-  final Category quiz;
+  const AttemptQuizScreen({super.key});
 
   @override
   State<AttemptQuizScreen> createState() => _AttemptQuizScreenState();
@@ -18,11 +16,12 @@ class AttemptQuizScreen extends StatefulWidget {
 class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
   final AttemptQuizController _attemptQuizController =
       Get.find<AttemptQuizController>();
+  final StartQuizController startQuizController = Get.find<StartQuizController>();
 
   @override
   void initState() {
     _attemptQuizController.getQuiz(
-      categoryName: widget.quiz.name ?? '',
+      categoryName: startQuizController.quizInfo.value?.category?.name ?? '',
     );
     super.initState();
   }
@@ -31,10 +30,16 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppBar(
-        title: Text(
-          "Serving & Receiving Quiz",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
+        title: Obx((){
+          return Text(
+            "${startQuizController.quizInfo.value?.category?.name}",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          );
+        }),
+
+
+
+
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -82,7 +87,7 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: Text(
-                          'Question  1 to 20',
+                          'Question  1 to ${_attemptQuizController.categoricalQuizList.length}',
                           style: TextStyle(
                             color: AppColors.primaryWhite,
                             fontSize: 16,
@@ -108,9 +113,10 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                             ),
                             padding: EdgeInsets.all(12),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  quiz.quizQuestion ?? '',
+                                  '${index + 1}. ${quiz.quizQuestion}',
                                   style: TextStyle(
                                     color: AppColors.primaryWhite,
                                     fontSize: 16,
@@ -190,11 +196,11 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                 SecondaryButton(
                   onPressed: () {
                     _attemptQuizController.submitQuiz(
-                      categoryId: widget.quiz.id ?? '',
+                      categoryId: startQuizController.quizInfo.value?.category?.id ?? '',
                     );
                   },
                   child: Text(
-                    'Next',
+                    'Submit',
                     style: TextStyle(
                       color: AppColors.primaryWhite,
                       fontSize: 16,
