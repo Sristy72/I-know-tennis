@@ -112,6 +112,7 @@ class ProfileEndpoints {
   String fetchProfile(String userId) => '$_base/$userId';
   final String updateProfile = '$_base/profile';
   final String fetchAllSubs = '${ApiConstants.baseUrl}/subscription-plan';
+  final String fetchLeaderboard = '${ApiConstants.baseUrl}/quiz-stats/leaderboard-summary';
 }
 
 class HomeEndpoints {

@@ -6,6 +6,7 @@ import '../../../../core/network/api_client.dart';
 import '../../../../core/network/constants/api_constants.dart';
 import '../../../../core/network/network_result.dart';
 import '../models/request/change_pass_request_model.dart';
+import '../models/response/get_leaderboard_summary.dart';
 import '../models/response/update_profile_response_model.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -49,6 +50,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
   NetworkResult<List<GetAllSubscriptionResponseModel>> getAllSubs(){
     return _apiClient.get(ApiConstants.profile.fetchAllSubs,
         fromJsonT: (json) => (json as List).map((item) => GetAllSubscriptionResponseModel.fromJson(item)).toList());
+  }
+
+
+  @override
+  NetworkResult<GetLeaderboardSummary> getLeaderboard(){
+    return _apiClient.get(
+      ApiConstants.profile.fetchLeaderboard,
+      fromJsonT: (json) =>
+          GetLeaderboardSummary.fromJson(json as Map<String, dynamic>),
+    );
   }
   //
   // @override

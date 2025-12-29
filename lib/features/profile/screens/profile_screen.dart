@@ -25,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     // Fetch profile data when screen loads
     profileController.fetchProfile();
+    profileController.fetchLeaderboard();
   }
 
   @override
@@ -105,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 24),
 
                     // Stats section (you can also make these dynamic later)
+                    //add leader board information from backend
                     Container(
                       padding: const EdgeInsets.all(1.5),
                       decoration: BoxDecoration(
@@ -131,14 +133,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Text('Leaderboard', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),),
                               SizedBox(height: 16,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
-                                  _buildStat('850', 'Points', const Color(0xFFFFC34D)),
-                                  _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
-                                ],
-                              ),
+                              Obx(() {
+                                final leaderboard = profileController.fetchLeader.value;
+
+                                if (leaderboard == null) {
+                                  return const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 20),
+                                      child: CircularProgressIndicator(color: Colors.white),
+                                    ),
+                                  );
+                                }
+
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _buildStat(
+                                      leaderboard.quizzesPlayed.toString(),
+                                      'Quizzes',
+                                      const Color(0xFF22D3EE),
+                                    ),
+                                    _buildStat(
+                                      leaderboard.points.toString(),
+                                      'Points',
+                                      const Color(0xFFFFC34D),
+                                    ),
+                                    _buildStat(
+                                      leaderboard.yourPosition?.toString() ?? '-',
+                                      'Your position',
+                                      const Color(0xFFF76C5E),
+                                    ),
+                                  ],
+                                );
+                              }),
                             ],
                           )
                         ),

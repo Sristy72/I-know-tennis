@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter_iknow_tennis/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_iknow_tennis/features/profile/models/request/change_pass_request_model.dart';
 import 'package:flutter_iknow_tennis/features/profile/models/response/get_all_subscription_response_model.dart';
+import 'package:flutter_iknow_tennis/features/profile/models/response/get_leaderboard_summary.dart';
 import 'package:flutter_iknow_tennis/features/profile/models/response/get_profile_response_model.dart';
 import 'package:get/get.dart';
 import '../../../../core/base/base_controller.dart';
-import '../../../core/network/constants/key_constants.dart';
 import '../../../core/network/services/auth_storage_service.dart';
 import '../../../core/network/services/multiple_form_data_manager.dart';
 import '../../../core/network/services/secure_store_services.dart';
@@ -18,6 +18,7 @@ class ProfileController extends BaseController {
   final AuthStorageService _authStorageService = AuthStorageService();
 
   final Rxn<GetProfileResponseModel> userInfo = Rxn<GetProfileResponseModel>();
+  final Rxn<GetLeaderboardSummary> fetchLeader = Rxn<GetLeaderboardSummary>();
 
   final MultiFormDataManager _multiFormDataManager = MultiFormDataManager();
   final RxList<GetAllSubscriptionResponseModel> allSubs = <GetAllSubscriptionResponseModel>[].obs;
@@ -47,6 +48,22 @@ class ProfileController extends BaseController {
       },
       (success) {
         userInfo.value = success.data;
+        DPrint.log(success.message);
+      },
+    );
+  }
+
+
+  Future<void> fetchLeaderboard() async {
+    final result = await _profileRepository.getLeaderboard();
+
+    result.fold(
+          (fail) {
+        setError(fail.message);
+        DPrint.log('data fetch failed');
+      },
+          (success) {
+        fetchLeader.value = success.data;
         DPrint.log(success.message);
       },
     );
