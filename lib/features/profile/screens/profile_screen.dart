@@ -25,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     // Fetch profile data when screen loads
     profileController.fetchProfile();
+    profileController.fetchLeaderboard();
   }
 
   @override
@@ -59,27 +60,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // Profile Header with dynamic data
                     Obx(() {
                       final user = profileController.userInfo.value;
-                      final String displayName = user?.fullName ?? 'Loading...';
-                      final String avatarUrl = user?.avatar ?? '';
+
+                      if (user == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        );
+                      }
 
                       return Row(
                         children: [
                           CircleAvatar(
                             radius: 30,
                             backgroundColor: Colors.grey.shade800,
-                            backgroundImage: avatarUrl.isNotEmpty
-                                ? NetworkImage(avatarUrl)
-                                : const AssetImage('assets/images/Container.png') as ImageProvider,
-                            child: avatarUrl.isEmpty
-                                ? const Icon(Icons.person, size: 30, color: Colors.white70)
+                            backgroundImage: user.avatar.isNotEmpty
+                                ? NetworkImage(user.avatar)
                                 : null,
+
                           ),
                           const SizedBox(width: 16),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                displayName,
+                                user.fullName,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -103,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 24),
 
                     // Stats section (you can also make these dynamic later)
+                    //add leader board information from backend
                     Container(
                       padding: const EdgeInsets.all(1.5),
                       decoration: BoxDecoration(
@@ -124,14 +128,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
-                              _buildStat('850', 'Points', const Color(0xFFFFC34D)),
-                              _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
+                              Text('Leaderboard', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),),
+                              SizedBox(height: 16,),
+                              Obx(() {
+                                final leaderboard = profileController.fetchLeader.value;
+
+                                if (leaderboard == null) {
+                                  return const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 20),
+                                      child: CircularProgressIndicator(color: Colors.white),
+                                    ),
+                                  );
+                                }
+
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _buildStat(
+                                      leaderboard.quizzesPlayed.toString(),
+                                      'Quizzes',
+                                      const Color(0xFF22D3EE),
+                                    ),
+                                    _buildStat(
+                                      leaderboard.points.toString(),
+                                      'Points',
+                                      const Color(0xFFFFC34D),
+                                    ),
+                                    _buildStat(
+                                      leaderboard.yourPosition?.toString() ?? '-',
+                                      'Your position',
+                                      const Color(0xFFF76C5E),
+                                    ),
+                                  ],
+                                );
+                              }),
                             ],
-                          ),
+                          )
                         ),
                       ),
                     ),
@@ -198,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildSettingsTile(
                         'assets/images/subscription.png',
                         'Subscription',
-                            () => Get.to(() => const SubscriptionScreen()),
+                            () => Get.to(() =>  SubscriptionScreen()),
                         'Manage your plan and billing',
                       ),
                       _buildSettingsTile(

@@ -1,7 +1,9 @@
+import 'package:flutter_iknow_tennis/features/auth/data/model/reset_change_password_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/forget_pass_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/signup_request_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/presentation/screens/reset_change_password_screen.dart';
 import 'package:flutter_iknow_tennis/features/auth/presentation/screens/otp_verification_screen.dart';
 import 'package:flutter_iknow_tennis/features/other/presentation/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import '../../../../core/network/services/auth_storage_service.dart';
 import '../../../../core/network/services/secure_store_services.dart';
 import '../../../../core/utils/debug_print.dart';
 import '../../../Home/presentation/screens/home_screen.dart';
+import '../../data/model/refresh_token_request_model.dart';
 import '../../domain/auth_repo.dart';
 import '../screens/login_screen.dart';
 import 'remember_me_controller.dart';
@@ -19,6 +22,7 @@ class AuthController extends BaseController {
   final AuthRepository _authRepository;
   final AuthStorageService _authStorageService;
   bool _isSuccess = false;
+  RxBool isAccepted = false.obs;
 
   var isLoading = false.obs;
   var errorMessage = "".obs;
@@ -180,9 +184,76 @@ class AuthController extends BaseController {
       },
       (success) {
         DPrint.log("verify otp success result : ${success.data.message}");
-        // Get.to(SetNewPasswordScreen(email: email, otp: otp));
+        Get.to(ResetChangePasswordScreen(email: email));
         setLoading(false);
       },
     );
   }
+
+    Future createNewPass(String email, String  password, String confirmPassword) async {
+
+    final request = ResetChangePasswordRequestModel(
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
+    final result = await _authRepository.createNewPassword(request);
+
+    result.fold(
+          (fail) {
+        setError(fail.message);
+        DPrint.log("New Password set failed result : ${fail.message}");
+      },
+          (success) {
+        DPrint.log(
+          "New Password set successfully result : ${success.message}",
+        );
+        Get.offAll(LoginScreen());
+      },
+    );
+  }
+
+   void toggle() {
+    isAccepted.value = !isAccepted.value;
+  }
+
+    Future<bool> refreshToken() async {
+  try {
+    setLoading(true);
+
+    final refreshToken = await _authStorageService.getRefreshToken();
+    if (refreshToken == null || refreshToken.isEmpty) {
+      setLoading(false);
+      return false;
+    }
+
+    final request = RefreshTokenRequestModel(refreshToken: refreshToken);
+    final result = await _authRepository.refreshToken(request);
+
+    return await result.fold(
+      (fail) async {
+        DPrint.log("Refresh token failed: ${fail.message}");
+        setLoading(false);
+        return false;
+      },
+      (success) async {
+        DPrint.log("Refresh token success");
+
+        await _authStorageService.storeAccessToken(
+          success.data.token.accessToken,
+        );
+        await _authStorageService.storeRefreshToken(
+          success.data.token.refreshToken,
+        );
+
+        setLoading(false);
+        return true;
+      },
+    );
+  } catch (e) {
+    setLoading(false);
+    return false;
+  }
+}
+
 }

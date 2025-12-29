@@ -52,7 +52,7 @@ class AuthEndpoints {
   final String register = '$_base/signup';
   final String forget = '$_base/forgot-password';
   final String verify = '$_base/verify-otp';
-  final String refreshToken = '${ApiConstants.baseUrl}/auth/refresh-token';
+  final String refreshToken = '${ApiConstants.baseUrl}/auth/reset-refresh-token';
 
   // Password Reset Flow
   final String resetPass = '$_base/forget'; // Send OTP for forgot password
@@ -114,9 +114,9 @@ class ContactEndpoints {
 
 // New payment endpoints
 class PaymentEndpoints {
-  static const String _base = '${ApiConstants.baseUrl}/payment';
+  static const String _base = '${ApiConstants.baseUrl}/subscription-plan';
 
-  final String createPayment = '$_base/create-payment';
+  final String createPayment = '$_base/checkout';
 
   final String confirmPayment = '$_base/confirm-payment';
 }
@@ -126,6 +126,7 @@ class ProfileEndpoints {
   String fetchProfile(String userId) => '$_base/$userId';
   final String updateProfile = '$_base/profile';
   final String fetchAllSubs = '${ApiConstants.baseUrl}/subscription-plan';
+  final String fetchLeaderboard = '${ApiConstants.baseUrl}/quiz-stats/leaderboard-summary';
 }
 
 class HomeEndpoints {

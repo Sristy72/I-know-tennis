@@ -12,7 +12,7 @@ class AppInitializer {
 
     setupServiceLocator();
 
-    // StripeInitializer.intiStripe();
+    StripeInitializer.intiStripe();
 
     // SocketService.initializeSocket(sl());
   }

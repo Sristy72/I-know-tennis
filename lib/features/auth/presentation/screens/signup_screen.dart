@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/features/auth/presentation/screens/login_screen.dart';
@@ -16,10 +15,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-
   final _authController = Get.find<AuthController>();
 
-   final FocusNode _emailFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
@@ -32,14 +30,13 @@ class _SignupScreenState extends State<SignupScreen> {
       TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
-    void _submit() {
+  void _submit() {
     _authController.register(
       _nameController.text.toString(),
       _emailController.text,
       _passwordController.text,
       _phoneController.text,
-      _confirmPasswordController.text
-     
+      _confirmPasswordController.text,
     );
   }
 
@@ -48,14 +45,12 @@ class _SignupScreenState extends State<SignupScreen> {
     return AppScaffold(
       removePadding: true,
       body: SafeArea(
-        child: SingleChildScrollView( // <-- Added
+        child: SingleChildScrollView(
+          // <-- Added
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-        
-
-
               const SizedBox(height: 16),
 
               const Text(
@@ -72,14 +67,11 @@ class _SignupScreenState extends State<SignupScreen> {
               /// EMAIL
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Name",
-                  style: TextStyle(color: Colors.white70),
-                ),
+                child: Text("Name", style: TextStyle(color: Colors.white70)),
               ),
               const SizedBox(height: 8),
-               CustomTextField(
-                controller:_nameController, 
+              CustomTextField(
+                controller: _nameController,
                 hint: "Enter your Full  Name",
                 prefixIcon: Icons.person_3_sharp,
               ),
@@ -89,20 +81,15 @@ class _SignupScreenState extends State<SignupScreen> {
               /// PASSWORD
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Email",
-                  style: TextStyle(color: Colors.white70),
-                ),
+                child: Text("Email", style: TextStyle(color: Colors.white70)),
               ),
               const SizedBox(height: 12),
-               CustomTextField(
+              CustomTextField(
                 controller: _emailController,
                 hint: "Enter your Email",
                 prefixIcon: Icons.email_outlined,
-                
-            
               ),
-               const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
               /// PASSWORD
               const Align(
@@ -113,14 +100,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-               CustomTextField(
+              CustomTextField(
                 controller: _phoneController,
                 hint: "Enter your Phone Number",
                 prefixIcon: Icons.phone_callback,
-                
-            
               ),
-                  const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
               /// PASSWORD
               const Align(
@@ -131,14 +116,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-               CustomTextField(
+              CustomTextField(
                 controller: _passwordController,
                 hint: "Create a Password ",
                 prefixIcon: Icons.lock_outline,
-                
-            
               ),
-                  const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
               /// PASSWORD
               const Align(
@@ -149,35 +132,39 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-               CustomTextField(
+              CustomTextField(
                 controller: _confirmPasswordController,
                 hint: "Confirm a Password ",
                 prefixIcon: Icons.lock_outline,
-                
-            
               ),
 
               const SizedBox(height: 12),
 
               /// REMEMBER + FORGOT
-              /// 
+              ///
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Checkbox(
-                    value: false,
-                    onChanged: (_) {},
-                    activeColor: Colors.blue,
+                  Obx(
+                    () => Checkbox(
+                      value: _authController.isAccepted.value,
+                      activeColor: Colors.blue,
+                      onChanged: (_) => _authController.toggle(),
+                    ),
                   ),
-                  const Text(
-                    "I agree to the Terms and Conditions and \n Privacy Policy *",
-                    style: TextStyle(color: Colors.white70),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: _authController.toggle, // tap text also toggles
+                      child: const Text(
+                        "I agree to the Terms and Conditions and \n Privacy Policy *",
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                    ),
                   ),
-
-                  
                 ],
               ),
-                   const SizedBox(height: 20),
-               Row(
+              const SizedBox(height: 20),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
@@ -198,8 +185,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ],
               ),
-
-      
 
               const SizedBox(height: 20),
 
@@ -224,8 +209,6 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
 
               const SizedBox(height: 20),
-
-              
             ],
           ),
         ),

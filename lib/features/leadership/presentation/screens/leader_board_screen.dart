@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_buttoms.dart';
@@ -20,34 +21,30 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
+    return AppScaffold(
+      removePadding: true,
+      // backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           /// Background Image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/LeaderboardIcon.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          // Positioned.fill(
+          //   child: Image.asset(
+          //     'assets/images/LeaderboardIcon.png',
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
           SafeArea(
             child: Column(
+              mainAxisSize: MainAxisSize.min, // make column take minimum height
               children: [
                 /// AppBar
-                /// AppBar (always at top)
-                // const LeaderboardAppBar(),
+                const LeaderboardAppBar(),
 
-                /// Spacer between AppBar & podium
-                const SizedBox(height: 24),
-
-                /// Top 3 Section (pushed down properly)
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: TopThreeAvatars(users: controller.topUsers),
-                ),
-
-                // const SizedBox(height: 5),
+                /// Minimal spacing between AppBar & podium
+                const SizedBox(height: 24), // reduce this value as needed
+                /// Top 3 Section
+                TopThreePodium(users: controller.topUsers),
+                const SizedBox(height: 8),
 
                 /// Leaderboard List (starting from rank 4)
                 Expanded(

@@ -1,3 +1,8 @@
+
+import 'package:flutter_iknow_tennis/features/auth/presentation/controller/splash_controller.dart';
+import 'package:flutter_iknow_tennis/features/profile/controller/profile_controller.dart';
+import 'package:flutter_iknow_tennis/features/Home/presentation/controller/home_controller.dart';
+import 'package:flutter_iknow_tennis/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/complete_quiz_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/view_answer_controller.dart';
@@ -23,6 +28,13 @@ void setupController() {
   );
 
 
+   Get.lazyPut<SubscriptionController>(
+    () => SubscriptionController(Get.find()),
+    fenix: true,
+  );
+
+
+
   Get.lazyPut<AttemptQuizController>(
           () => AttemptQuizController(Get.find()),
     fenix: true,
@@ -40,6 +52,8 @@ void setupController() {
 
   Get.lazyPut<ViewAnswerController>(
       () => ViewAnswerController(Get.find()),
+   Get.lazyPut<SplashController>(
+          () => SplashController(),
     fenix: true,
   );
 }

@@ -1,21 +1,12 @@
-// import 'package:get/get.dart';
 
-// class OnboardingController extends GetxController {
-//   var currentPage = 1.obs;
-//   final int totalPages = 3;
-
-//   void nextPage() {
-//     if (currentPage.value < totalPages) {
-//       currentPage.value++;
-//     }
-//   }
-// }
 import 'package:flutter_iknow_tennis/features/auth/presentation/screens/login_screen.dart';
 import 'package:get/get.dart';
+import '../../../../core/network/services/auth_storage_service.dart';
 import '../widget/onboarding_item.dart';
 
 class OnboardingController extends GetxController {
   var currentPage = 0.obs;
+  final AuthStorageService _storage = Get.find();
 
   final pages = <OnboardingItem>[
     OnboardingItem(
@@ -55,5 +46,10 @@ class OnboardingController extends GetxController {
   void goToLogin() {
     // Replace with your Login route
     Get.offAll(()=> LoginScreen()); 
+  }
+
+  Future<void> _finishOnboarding() async {
+    await _storage.setOnboardingSeen();
+    Get.offAll(() => LoginScreen());
   }
 }
