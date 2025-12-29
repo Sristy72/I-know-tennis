@@ -4,11 +4,12 @@ class GetProfileResponseModel {
   final String email;
   final String phone;
   final String role;
-  final String createdAt;
-  final String updatedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
   final int version;
   final String avatar;
   final String avatarPublicId;
+  final Subscription subscription;
 
   GetProfileResponseModel({
     required this.id,
@@ -21,20 +22,22 @@ class GetProfileResponseModel {
     required this.version,
     required this.avatar,
     required this.avatarPublicId,
+    required this.subscription,
   });
 
   factory GetProfileResponseModel.fromJson(Map<String, dynamic> json) {
     return GetProfileResponseModel(
-      id: json['_id'],
-      fullName: json['fullName'],
-      email: json['email'],
-      phone: json['phone'],
-      role: json['role'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      version: json['__v'],
-      avatar: json['avatar'],
-      avatarPublicId: json['avatarPublicId'],
+      id: json['_id'] ?? '',
+      fullName: json['fullName'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      role: json['role'] ?? '',
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+      version: json['__v'] ?? 0,
+      avatar: json['avatar'] ?? '',
+      avatarPublicId: json['avatarPublicId'] ?? '',
+      subscription: Subscription.fromJson(json['subscription'] ?? {}),
     );
   }
 
@@ -45,11 +48,30 @@ class GetProfileResponseModel {
       'email': email,
       'phone': phone,
       'role': role,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
       '__v': version,
       'avatar': avatar,
       'avatarPublicId': avatarPublicId,
+      'subscription': subscription.toJson(),
+    };
+  }
+}
+
+class Subscription {
+  final bool isActive;
+
+  Subscription({required this.isActive});
+
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      isActive: json['isActive'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'isActive': isActive,
     };
   }
 }

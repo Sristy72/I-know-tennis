@@ -10,8 +10,6 @@ class TermsConditionsScreen extends StatefulWidget {
 }
 
 class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final FocusNode _nameFocus = FocusNode();
 
 
   @override
