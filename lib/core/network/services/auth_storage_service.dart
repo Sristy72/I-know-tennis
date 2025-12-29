@@ -110,14 +110,14 @@ class AuthStorageService {
 
 Future<void> setOnboardingSeen() async {
   await _secureStorage.write(
-    key: KeyConstants.onboardingSeen,
+    key: KeyConstants.onboardingStatus,
     value: 'true',
   );
 }
 
 Future<bool> hasSeenOnboarding() async {
   final value = await _secureStorage.read(
-    key: KeyConstants.onboardingSeen,
+    key: KeyConstants.onboardingStatus,
   );
   return value == 'true';
 }
