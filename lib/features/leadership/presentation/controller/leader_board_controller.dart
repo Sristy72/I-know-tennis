@@ -8,7 +8,7 @@ import '../../data/model/top_user_model.dart';
 
 
 class LeaderboardController extends BaseController {
-  final LeaderboardRepository _leaderRepository;
+  final LeaderboardListRepository _leaderRepository;
   LeaderboardController(this._leaderRepository);
 
   final Rx<LeaderboardResponse?> leader = Rx<LeaderboardResponse?>(null);

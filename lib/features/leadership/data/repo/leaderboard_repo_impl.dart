@@ -7,10 +7,10 @@ import '../../../../core/network/constants/api_constants.dart';
 import '../../../../core/network/network_result.dart';
 import '../../domain/repo/leaderboard_repo.dart';
 
-class LeaderboardRepoImpl implements LeaderboardRepository {
+class LeaderboardRepoListImpl implements LeaderboardListRepository {
   final ApiClient _apiClient;
 
-  LeaderboardRepoImpl({required ApiClient apiClient}) : _apiClient = apiClient;
+  LeaderboardRepoListImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   //    @override
   //   NetworkResult<LeaderboardResponse> getLeaderboard() {

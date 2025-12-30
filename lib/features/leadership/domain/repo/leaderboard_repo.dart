@@ -1,7 +1,7 @@
 import '../../../../core/network/network_result.dart';
 import '../../data/model/leaderboard_response_model.dart';
 
-abstract class LeaderboardRepository {
+abstract class LeaderboardListRepository {
   // NetworkResult<LeaderboardResponse> getLeaderboard();
   NetworkResult<LeaderboardResponse> getLeaderboard({
     required int page,
