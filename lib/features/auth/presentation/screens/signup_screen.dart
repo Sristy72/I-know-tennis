@@ -56,20 +56,27 @@ class _SignupScreenState extends State<SignupScreen> {
               const Text(
                 "Create Your Account",
                 style: TextStyle(
-                  color: Color(0xFFFCFDFFCC),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 24),
 
               /// EMAIL
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Name", style: TextStyle(color: Colors.white70)),
+                child: Text(
+                  "Name",
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               CustomTextField(
                 controller: _nameController,
                 hint: "Enter your Full  Name",
@@ -81,7 +88,14 @@ class _SignupScreenState extends State<SignupScreen> {
               /// PASSWORD
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Email", style: TextStyle(color: Colors.white70)),
+                child: Text(
+                  "Email",
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
               CustomTextField(
@@ -96,7 +110,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Phone Number",
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -112,7 +130,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Password",
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -128,7 +150,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   " Confirm Password",
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -138,7 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 prefixIcon: Icons.lock_outline,
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 24),
 
               /// REMEMBER + FORGOT
               ///
@@ -148,28 +174,65 @@ class _SignupScreenState extends State<SignupScreen> {
                   Obx(
                     () => Checkbox(
                       value: _authController.isAccepted.value,
-                      activeColor: Colors.blue,
+                      activeColor: Color(0xFF12B347),
+                      // fill color when checked
+                      checkColor: Colors.black,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
                       onChanged: (_) => _authController.toggle(),
                     ),
                   ),
+
+                  const SizedBox(
+                    width: 6,
+                  ), // 👈 spacing between checkbox and text
+
                   Expanded(
                     child: GestureDetector(
-                      onTap: _authController.toggle, // tap text also toggles
-                      child: const Text(
-                        "I agree to the Terms and Conditions and \n Privacy Policy *",
-                        style: TextStyle(color: Colors.white70),
+                      onTap: _authController.toggle,
+                      child: Align(
+                        alignment:
+                            Alignment.topLeft, // 👈 force text to start at top
+                        child: RichText(
+                          text: const TextSpan(
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13,
+                              height: 1.4,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "I agree to the Terms and Conditions and \nPrivacy Policy ",
+                              ),
+                              TextSpan(
+                                text: "*",
+                                style: TextStyle(
+                                  color: Color(0xFFC06D8A),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
+
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     "Already have an account?  ",
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -178,8 +241,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: const Text(
                       "Sign In Here",
                       style: TextStyle(
-                        color: Color(0xFF1269C9),
-                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF0099FF),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
                       ),
                     ),
                   ),

@@ -19,12 +19,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Get.find<HomeController>();
+  final profileController = Get.find<ProfileController>();
 
   @override
   void initState() {
     super.initState();
     controller.fetchCategories();
-    
+    profileController.fetchLeaderboard();
   }
 
   @override
@@ -126,6 +127,7 @@ class _Header extends StatelessWidget {
 }
 
 class _ProgressCard extends StatelessWidget {
+  final profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -152,14 +154,39 @@ class _ProgressCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16), // Space between title and stats
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStat('12', 'Quizzes', const Color(0xFF22D3EE)),
-                _buildStat('850', 'Points', const Color(0xFFFFC34D)),
-                _buildStat('1', 'Your position', const Color(0xFFF76C5E)),
-              ],
-            ),
+            Obx(() {
+              final leaderboard = profileController.fetchLeader.value;
+
+              if (leaderboard == null) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
+                );
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildStat(
+                    leaderboard.quizzesPlayed.toString(),
+                    'Quizzes',
+                    const Color(0xFF22D3EE),
+                  ),
+                  _buildStat(
+                    leaderboard.points.toString(),
+                    'Points',
+                    const Color(0xFFFFC34D),
+                  ),
+                  _buildStat(
+                    leaderboard.yourPosition?.toString() ?? '-',
+                    'Your position',
+                    const Color(0xFFF76C5E),
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       ),

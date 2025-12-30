@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../data/model/leaderboard_response_model.dart';
 import '../../data/model/top_user_model.dart';
 
 class LeaderboardRow extends StatelessWidget {
-  final LeaderboardUser user;
+  final ListUser user;
+  final bool isMe;
 
-  const LeaderboardRow({super.key, required this.user});
+  const LeaderboardRow({super.key, required this.user, this.isMe = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,14 @@ class LeaderboardRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text("#${user.rank}",
-              style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.bold)),
+          Text(
+            "#${user.rank}",
+            style: const TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 12),
           const CircleAvatar(
             radius: 25,
@@ -34,16 +42,33 @@ class LeaderboardRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text("Username",
-                    style: TextStyle(
-                        color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 14, )),
-                Text("@username",
-                    style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.w400)),
+                Text(
+                  "Username",
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  "@username",
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ],
             ),
           ),
-          Text("${user.score}",
-              style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 12, fontWeight: FontWeight.w700)),
+          Text(
+            "${user.points}",
+            style: const TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ],
       ),
     );

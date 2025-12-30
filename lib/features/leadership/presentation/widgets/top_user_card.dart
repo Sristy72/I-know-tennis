@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../data/model/leaderboard_response_model.dart';
 import '../../data/model/top_user_model.dart';
 
 // class TopUserAvatar extends StatelessWidget {
@@ -86,7 +87,7 @@ class TopUserCard extends StatelessWidget {
                   width: 3,
                 ),
                 image: DecorationImage(
-                  image: NetworkImage(user.image),
+                  image: NetworkImage(user.avatar ?? ''),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -103,7 +104,7 @@ class TopUserCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      user.name,
+                      user.fullName,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -112,7 +113,7 @@ class TopUserCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      user.score.toString(),
+                      user.points.toString(),
                       style: const TextStyle(
                         color: Colors.yellow,
                         fontWeight: FontWeight.bold,
@@ -120,14 +121,14 @@ class TopUserCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 2),
-                    Text(
-                      user.email,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 10,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                    // Text(
+                    //   user.email,
+                    //   style: const TextStyle(
+                    //     color: Colors.white70,
+                    //     fontSize: 10,
+                    //   ),
+                    //   textAlign: TextAlign.center,
+                    // ),
                   ],
                 ),
               ),

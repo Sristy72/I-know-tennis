@@ -1,7 +1,7 @@
 class ApiConstants {
   /// [Base Configuration]
+  static const String baseDomain = 'http://206.162.244.166:8000';
   // static const String baseDomain = 'http://10.10.5.53:8000';
-  static const String baseDomain = 'http://10.10.5.32:8000';
   static const String baseUrl = '$baseDomain/api/v1';
 
 
@@ -119,4 +119,5 @@ class HomeEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/quiz';
   final String getQuiz = _base;
   final String getCategories = '${ApiConstants.baseUrl}/quiz-categories';
+  final String getLeaderboard = '${ApiConstants.baseUrl}/quiz-stats/leaderboard-list';
 }

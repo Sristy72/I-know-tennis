@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _screens = [
     HomeScreen(), // Removed Center for now, you can wrap if needed
      Center(child: QuizScreen()), // Placeholder
-    const Center(child: LeaderboardScreen()), // Placeholder
+    const Center(child: LeaderboardScreen( )), // Placeholder
     const Center(child: ProfileScreen()), // Placeholder
   ];
 

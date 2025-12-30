@@ -36,7 +36,7 @@ class PrimaryButton extends StatelessWidget {
           opacity: isLoading ? 0.6 : 1.0,
           child: Container(
             width: width ?? double.infinity,
-            height: height ?? 48,
+            height: height ?? 52,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                color:  Color(0xFF2058E6),

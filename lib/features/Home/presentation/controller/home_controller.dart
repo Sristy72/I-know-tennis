@@ -6,7 +6,7 @@ import '../../data/model/quiz_response_model.dart';
 
 class HomeController extends BaseController {
   final HomeRepository _homeRepository;
-  final userName = 'Madiha Arqa'.obs;
+  // final userName = 'Madiha Arqa'.obs;
 
   HomeController(this._homeRepository);
   // final quizzes = Rx<QuizResponseModel?>(null);
