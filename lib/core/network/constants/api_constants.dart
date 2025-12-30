@@ -99,6 +99,7 @@ class PlayQuizEndpoints {
 class QuizStatusEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/quiz-stats';
   String attemptQuizSummary(String attemptId) =>'$_base/attempt/$attemptId';
+  final String leaderboardSummary = '$_base/leaderboard-summary';
 }
 
 class LeagueEndpoints {

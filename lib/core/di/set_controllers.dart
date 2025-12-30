@@ -1,5 +1,6 @@
 
 import 'package:flutter_iknow_tennis/features/auth/presentation/controller/splash_controller.dart';
+import 'package:flutter_iknow_tennis/features/other/presentation/controller/gain_controller.dart';
 import 'package:flutter_iknow_tennis/features/profile/controller/profile_controller.dart';
 import 'package:flutter_iknow_tennis/features/Home/presentation/controller/home_controller.dart';
 import 'package:flutter_iknow_tennis/features/subscription/presentation/controller/subscription_controller.dart';
@@ -52,8 +53,18 @@ void setupController() {
 
   Get.lazyPut<ViewAnswerController>(
       () => ViewAnswerController(Get.find()),
+    fenix: true,
+  );
+
    Get.lazyPut<SplashController>(
           () => SplashController(),
     fenix: true,
   );
+
+   Get.lazyPut<GainController>(
+          () => GainController(Get.find()),
+    fenix: true,
+  );
+
+
 }
