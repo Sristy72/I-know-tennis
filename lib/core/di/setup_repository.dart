@@ -1,3 +1,5 @@
+import 'package:flutter_iknow_tennis/features/other/data/repositories/leaderboard_repo_impl.dart';
+import 'package:flutter_iknow_tennis/features/other/domain/repositories/leaderboard_repository.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/repositories/quiz_repository_impl.dart';
 import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repository.dart';
 import 'package:flutter_iknow_tennis/features/profile/repositories/profile_repo.dart';
@@ -32,6 +34,12 @@ void setupRepository() {
 
      Get.lazyPut<PaymentRepository>(
     () => PaymentRepositoryImpl(apiClient: Get.find()),
+    fenix: true,
+  );
+
+
+     Get.lazyPut<LeaderboardRepository>(
+    () => LeaderboardRepoImpl(apiClient: Get.find()),
     fenix: true,
   );
 }
