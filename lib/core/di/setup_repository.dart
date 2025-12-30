@@ -1,7 +1,10 @@
 import 'package:flutter_iknow_tennis/features/leadership/data/repo/leaderboard_repo_impl.dart';
 import 'package:flutter_iknow_tennis/features/leadership/domain/repo/leaderboard_repo.dart';
-import 'package:flutter_iknow_tennis/features/quiz/data/repositories/attempt_quiz_repository_impl.dart';
-import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/attempt_quiz_repository.dart';
+
+import 'package:flutter_iknow_tennis/features/other/data/repositories/leaderboard_repo_impl.dart';
+import 'package:flutter_iknow_tennis/features/other/domain/repositories/leaderboard_repository.dart';
+import 'package:flutter_iknow_tennis/features/quiz/data/repositories/quiz_repository_impl.dart';
+import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repository.dart';
 import 'package:flutter_iknow_tennis/features/profile/repositories/profile_repo.dart';
 import 'package:flutter_iknow_tennis/features/profile/repositories/profile_repo_impl.dart';
 import 'package:flutter_iknow_tennis/features/Home/data/repo/home_repo_impl.dart';
@@ -19,8 +22,8 @@ void setupRepository() {
     fenix: true,
   );
 
-  Get.lazyPut<AttemptQuizRepository>(
-    () => AttemptQuizRepositoryImpl(apiClient: Get.find()),
+  Get.lazyPut<QuizRepository>(
+    () => QuizRepositoryImpl(apiClient: Get.find()),
     fenix: true,
   );
   Get.lazyPut<ProfileRepository>(
@@ -37,8 +40,16 @@ void setupRepository() {
     fenix: true,
   );
 
-   Get.lazyPut<LeaderboardRepository>(
+
+
+     Get.lazyPut<LeaderboardRepository>(
     () => LeaderboardRepoImpl(apiClient: Get.find()),
+    fenix: true,
+  );
+
+
+     Get.lazyPut<LeaderboardListRepository>(
+    () => LeaderboardRepoListImpl(apiClient: Get.find()),
     fenix: true,
   );
 }
