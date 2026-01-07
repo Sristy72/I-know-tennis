@@ -95,7 +95,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text("Email", style: TextStyle(color: Colors.white70)),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 CustomTextField(
                   controller: _emailController,
                   hint: "Enter your Email",
@@ -107,7 +107,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: PrimaryButton(
                     height: 52,
-                    borderRadius: 12,
+                    width: double.infinity,
+                    borderRadius: 8,
                     isGradient: false,
                     backgroundColor: const Color(0xFF2058E6),
                     onPressed: _sendOtp,

@@ -1,7 +1,7 @@
 class ApiConstants {
   /// [Base Configuration]
+  static const String baseDomain = 'http://206.162.244.166:8000';
   // static const String baseDomain = 'http://10.10.5.53:8000';
-  static const String baseDomain = 'http://10.10.5.32:8000';
   static const String baseUrl = '$baseDomain/api/v1';
 
 
@@ -27,6 +27,8 @@ class ApiConstants {
   static UserEndpoints get user => UserEndpoints();
 
   static QuizEndpoints get quiz => QuizEndpoints();
+  static PlayQuizEndpoints get playQuiz => PlayQuizEndpoints();
+  static QuizStatusEndpoints get quizStatus => QuizStatusEndpoints();
   static LeagueEndpoints get league => LeagueEndpoints();
 
   static ContactEndpoints get contact => ContactEndpoints();
@@ -87,6 +89,19 @@ class QuizEndpoints {
   final String getQuiz = _base;
 }
 
+class PlayQuizEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/play-quiz';
+  final String submitQuiz = '$_base/submit';
+  String startQuiz(String categoryId) =>'$_base/category/$categoryId';
+  String viewResult(String attemptId) =>'$_base/result/$attemptId';
+}
+
+class QuizStatusEndpoints {
+  static const String _base = '${ApiConstants.baseUrl}/quiz-stats';
+  String attemptQuizSummary(String attemptId) =>'$_base/attempt/$attemptId';
+  final String leaderboardSummary = '$_base/leaderboard-summary';
+}
+
 class LeagueEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/league';
 
@@ -119,4 +134,5 @@ class HomeEndpoints {
   static const String _base = '${ApiConstants.baseUrl}/quiz';
   final String getQuiz = _base;
   final String getCategories = '${ApiConstants.baseUrl}/quiz-categories';
+  final String getLeaderboard = '${ApiConstants.baseUrl}/quiz-stats/leaderboard-list';
 }

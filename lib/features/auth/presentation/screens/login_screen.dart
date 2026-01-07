@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // tap text also toggles
                     child: const Text(
                       "Remember Me",
-                      style: TextStyle(color: Color(0xFFFCFDFF)),
+                      style: TextStyle(color: Color(0xFFFCFDFF), fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                   ),
                   const Spacer(),
@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       "Forgot password?",
-                      style: TextStyle(color: Colors.lightBlueAccent),
+                      style: TextStyle(color: Color(0xFF0099FF), fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -230,7 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text(
                     "Don't have an account? ",
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w400),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -239,8 +239,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text(
                       "Sign Up Here",
                       style: TextStyle(
-                        color: Color(0xFF1269C9),
-                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF0099FF),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
                       ),
                     ),
                   ),
