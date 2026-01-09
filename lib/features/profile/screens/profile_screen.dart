@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundColor: Colors.grey.shade800,
                             backgroundImage: user.avatar.isNotEmpty
                                 ? NetworkImage(user.avatar)
-                                : null,
+                                : AssetImage('assets/images/avatar.png'),
 
                           ),
                           const SizedBox(width: 16),
