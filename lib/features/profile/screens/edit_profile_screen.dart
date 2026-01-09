@@ -60,39 +60,39 @@ class EditProfileScreen extends StatelessWidget {
             const SizedBox(height: 32),
 
             // Profile Picture with Edit Button
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                GestureDetector(
-                  onTap: controller.pickImage,
-                  child: CircleAvatar(
+            GestureDetector(
+              onTap: controller.pickImage,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircleAvatar(
                     radius: 80,
                     backgroundImage: controller.selectedImage.value != null
                         ? FileImage(controller.selectedImage.value!)
                         : currentAvatarUrl != null && currentAvatarUrl.isNotEmpty
                         ? NetworkImage(currentAvatarUrl)
-                        : const AssetImage('assets/images/Container.png') as ImageProvider,
+                        : const AssetImage('assets/images/avatar.png') as ImageProvider,
                   ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF3377FF),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: const Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
-                      size: 20,
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF3377FF),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
             const SizedBox(height: 32),
