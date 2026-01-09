@@ -86,8 +86,9 @@ class _QuizSection extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: 14,
             mainAxisSpacing: 14,
-            childAspectRatio: .65,
+            childAspectRatio: 0.58, // 👈 taller cards
           ),
+
           itemBuilder: (_, i) => QuizCard(quiz: quizList[i]),
         );
       }),
