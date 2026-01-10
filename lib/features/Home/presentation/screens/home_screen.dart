@@ -71,16 +71,15 @@ class _Header extends StatelessWidget {
                   radius: 30,
                   backgroundColor: Colors.grey.shade800,
                   backgroundImage: avatarUrl.isNotEmpty
-                      ? NetworkImage(avatarUrl)
-                      : const AssetImage('assets/images/Container.png')
-                            as ImageProvider,
-                  child: avatarUrl.isEmpty
-                      ? const Icon(
-                          Icons.person,
-                          size: 30,
-                          color: Colors.white70,
-                        )
-                      : null,
+                       ? NetworkImage(avatarUrl)
+                                : AssetImage('assets/images/avatar.png'),
+                  // child: avatarUrl.isEmpty
+                  //     ? const Icon(
+                  //         Icons.person,
+                  //         size: 30,
+                  //         color: Colors.white70,
+                  //       )
+                  //     : null,
                 ),
                 const SizedBox(width: 16),
                 Column(

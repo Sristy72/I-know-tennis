@@ -67,7 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         );
                       }
 
-                      return Row(
+                      return 
+                      Row(
                         children: [
                           CircleAvatar(
                             radius: 30,

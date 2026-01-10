@@ -76,7 +76,7 @@ class AuthController extends BaseController {
             secureStore.deleteData('password');
 }
 
-        Get.to(() => DashboardScreen());
+        Get.offAll(() => DashboardScreen());
         setLoading(false);
       },
     );
