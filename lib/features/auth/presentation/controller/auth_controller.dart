@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/resend_otp_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/reset_change_password_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/forget_pass_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_request_model.dart';
@@ -65,16 +69,14 @@ class AuthController extends BaseController {
 
         /// 🔹 remember me optional storage
         if (rememberMeController!.rememberMe.value) {
-            final secureStore = SecureStoreServices();
-            secureStore.storeData('email', email);
-            secureStore.storeData('password', password);
-
-          }
-          else {
-            final secureStore = SecureStoreServices();
-            secureStore.deleteData('email');
-            secureStore.deleteData('password');
-}
+          final secureStore = SecureStoreServices();
+          secureStore.storeData('email', email);
+          secureStore.storeData('password', password);
+        } else {
+          final secureStore = SecureStoreServices();
+          secureStore.deleteData('email');
+          secureStore.deleteData('password');
+        }
 
         Get.offAll(() => DashboardScreen());
         setLoading(false);
@@ -190,8 +192,11 @@ class AuthController extends BaseController {
     );
   }
 
-    Future createNewPass(String email, String  password, String confirmPassword) async {
-
+  Future createNewPass(
+    String email,
+    String password,
+    String confirmPassword,
+  ) async {
     final request = ResetChangePasswordRequestModel(
       email: email,
       password: password,
@@ -200,60 +205,155 @@ class AuthController extends BaseController {
     final result = await _authRepository.createNewPassword(request);
 
     result.fold(
-          (fail) {
+      (fail) {
         setError(fail.message);
         DPrint.log("New Password set failed result : ${fail.message}");
       },
-          (success) {
-        DPrint.log(
-          "New Password set successfully result : ${success.message}",
-        );
+      (success) {
+        DPrint.log("New Password set successfully result : ${success.message}");
         Get.offAll(LoginScreen());
       },
     );
   }
 
-   void toggle() {
+  void toggle() {
     isAccepted.value = !isAccepted.value;
   }
 
-    Future<bool> refreshToken() async {
-  try {
-    setLoading(true);
+  Future<bool> refreshToken() async {
+    try {
+      setLoading(true);
 
-    final refreshToken = await _authStorageService.getRefreshToken();
-    if (refreshToken == null || refreshToken.isEmpty) {
+      final refreshToken = await _authStorageService.getRefreshToken();
+      if (refreshToken == null || refreshToken.isEmpty) {
+        setLoading(false);
+        return false;
+      }
+
+      final request = RefreshTokenRequestModel(refreshToken: refreshToken);
+      final result = await _authRepository.refreshToken(request);
+
+      return await result.fold(
+        (fail) async {
+          DPrint.log("Refresh token failed: ${fail.message}");
+          setLoading(false);
+          return false;
+        },
+        (success) async {
+          DPrint.log("Refresh token success");
+
+          await _authStorageService.storeAccessToken(
+            success.data.token.accessToken,
+          );
+          await _authStorageService.storeRefreshToken(
+            success.data.token.refreshToken,
+          );
+
+          setLoading(false);
+          return true;
+        },
+      );
+    } catch (e) {
       setLoading(false);
       return false;
     }
+  }
 
-    final request = RefreshTokenRequestModel(refreshToken: refreshToken);
-    final result = await _authRepository.refreshToken(request);
+  // Future resendOTP(String email) async {
+  //   setLoading(true);
+  //   setError('');
 
-    return await result.fold(
-      (fail) async {
-        DPrint.log("Refresh token failed: ${fail.message}");
+  //   final request = ResendOtpRequestModel.fromJson({'email': email});
+  //   final result = await _authRepository.resendOTP(request);
+
+  //   result.fold(
+  //     (fail) {
+  //       setError(fail.message);
+  //       DPrint.log("reset pass success result : ${fail.message}");
+  //       setLoading(false);
+  //     },
+  //     (success) {
+  //       DPrint.log("reset pass success result : ${success.data}");
+  //       Get.offAll(() => OtpVerificationScreen(email: email));
+  //       setLoading(false);
+  //     },
+  //   );
+  // }
+  Future resendOTP(String email) async {
+    setLoading(true);
+    setError('');
+
+    final result = await _authRepository.resendOTP(
+      ResendOtpRequestModel.fromJson({'email': email}),
+    );
+
+    result.fold(
+      (fail) {
         setLoading(false);
-        return false;
+        setError(fail.message);
+
+        // 🔍 Extract seconds from backend message
+        final RegExp regex = RegExp(r'(\d+)\sseconds');
+        final match = regex.firstMatch(fail.message ?? '');
+
+        int seconds = 0;
+        if (match != null) {
+          seconds = int.parse(match.group(1)!);
+          startResendTimer(seconds);
+        }
+
+        Get.snackbar(
+          "Please wait",
+          seconds > 0
+              ? "You can resend OTP after ${formatSeconds(seconds)}"
+              : fail.message ?? "Too many requests",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange.shade700,
+          colorText: Colors.white,
+        );
       },
-      (success) async {
-        DPrint.log("Refresh token success");
-
-        await _authStorageService.storeAccessToken(
-          success.data.token.accessToken,
-        );
-        await _authStorageService.storeRefreshToken(
-          success.data.token.refreshToken,
-        );
-
+      (success) {
         setLoading(false);
-        return true;
+
+        Get.snackbar(
+          "Success",
+          "OTP sent successfully",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green.shade600,
+          colorText: Colors.white,
+        );
       },
     );
-  } catch (e) {
-    setLoading(false);
-    return false;
   }
-}
 
+  RxInt resendSeconds = 0.obs;
+  Timer? _resendTimer;
+
+  void startResendTimer(int seconds) {
+    resendSeconds.value = seconds;
+    _resendTimer?.cancel();
+
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendSeconds.value <= 0) {
+        timer.cancel();
+      } else {
+        resendSeconds.value--;
+      }
+    });
+  }
+
+  // 🕒 Convert seconds → mm:ss
+  String formatSeconds(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  void onClose() {
+    _resendTimer?.cancel();
+    super.onClose();
+  }
 }

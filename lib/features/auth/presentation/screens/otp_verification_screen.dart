@@ -7,7 +7,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../../core/theme/app_buttoms.dart';
 import '../controller/auth_controller.dart';
 
-
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key, required this.email});
   final String email;
@@ -17,14 +16,19 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-
-    final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
   final _authController = Get.find<AuthController>();
 
   void _submitOtp() {
     FocusScope.of(context).unfocus();
     _authController.verifyOTP(widget.email, _otpController.text);
   }
+
+  void _resendOtp() {
+    FocusScope.of(context).unfocus();
+    _authController.resendOTP(widget.email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -73,72 +77,74 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 ),
               ),
 
-              
-
-              
-
               const SizedBox(height: 24),
 
-             PinCodeTextField(
-                  appContext: context,
-                  controller: _otpController,
-                  length: 6,
-                  keyboardType: TextInputType.number,
-                  animationType: AnimationType.fade,
-                  autoDismissKeyboard: true,
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(8),
-                    fieldHeight: 50,
-                    fieldWidth: 45,
-                    activeFillColor: Colors.white,
-                    inactiveFillColor: Colors.grey.shade200,
-                    selectedFillColor: Colors.white,
-                    inactiveColor: Color(0xFFFFFFFFF),
-                    selectedColor: Colors.yellow,
-                    activeColor: Colors.yellow,
-                  ),
-
-                  textStyle: TextStyle(
-                    color: Color(0xFFFFFFFFF),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  cursorColor: Colors.yellow,
-                  animationDuration: const Duration(milliseconds: 300),
-                  enableActiveFill: false,
-                  onCompleted: (value) {
-                    // You can trigger submit automatically when user finishes typing
-                    _submitOtp();
-                  },
+              PinCodeTextField(
+                appContext: context,
+                controller: _otpController,
+                length: 6,
+                keyboardType: TextInputType.number,
+                animationType: AnimationType.fade,
+                autoDismissKeyboard: true,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(8),
+                  fieldHeight: 50,
+                  fieldWidth: 45,
+                  activeFillColor: Colors.white,
+                  inactiveFillColor: Colors.grey.shade200,
+                  selectedFillColor: Colors.white,
+                  inactiveColor: Color(0xFFFFFFFFF),
+                  selectedColor: Colors.yellow,
+                  activeColor: Colors.yellow,
                 ),
 
-     
-
-            const SizedBox(height: 32),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Didn't Receive OTP?",
-                  style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w400),
+                textStyle: TextStyle(
+                  color: Color(0xFFFFFFFFF),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
-                TextButton(
-                  onPressed: () {
-                   
-                  },
-                  child: const Text(
-                    "RESEND OTP",
+                cursorColor: Colors.yellow,
+                animationDuration: const Duration(milliseconds: 300),
+                enableActiveFill: false,
+                onCompleted: (value) {
+                  // You can trigger submit automatically when user finishes typing
+                  _submitOtp();
+                },
+              ),
+
+              const SizedBox(height: 32),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Didn't Receive OTP?",
                     style: TextStyle(
+                      color: Color(0xFFFFFFFF),
                       fontSize: 14,
-                      color: Color(0xFF0099FF),
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
-              ],
-            ),
+                  Obx(() {
+                    final seconds = _authController.resendSeconds.value;
+
+                    return TextButton(
+                      onPressed: seconds == 0 ? _resendOtp : null,
+                      child: Text(
+                        seconds == 0
+                            ? "RESEND OTP"
+                            : "Resend in ${_authController.formatSeconds(seconds)}",
+                        style: TextStyle(
+                          color: seconds == 0
+                              ? const Color(0xFF0099FF)
+                              : Colors.grey,
+                        ),
+                      ),
+                    );
+                  }),
+                ],
+              ),
 
               const SizedBox(height: 12),
               Padding(
@@ -159,8 +165,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                 ),
               ),
-
-              
 
               const SizedBox(height: 20),
             ],
