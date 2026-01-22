@@ -2,6 +2,7 @@ import 'package:flutter_iknow_tennis/core/network/api_client.dart';
 import 'package:flutter_iknow_tennis/core/network/constants/api_constants.dart';
 import 'package:flutter_iknow_tennis/core/network/network_result.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/categorical_quiz_response_model.dart';
+import 'package:flutter_iknow_tennis/features/quiz/data/models/jokes_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/quiz_summary_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/start_quiz_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/submit_quiz_request_model.dart';
@@ -61,5 +62,10 @@ class QuizRepositoryImpl implements QuizRepository {
   @override
   NetworkResult<ViewResultResponseModel> viewResult({required String attemptId}) {
     return _apiClient.get(ApiConstants.playQuiz.viewResult(attemptId), fromJsonT: (json) => ViewResultResponseModel.fromJson(json));
+  }
+
+    @override
+  NetworkResult<JokesResponseModel> jokes() {
+    return _apiClient.get(ApiConstants.playQuiz.jokes, fromJsonT: (json) => JokesResponseModel.fromJson(json));
   }
 }
