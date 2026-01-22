@@ -6,6 +6,8 @@ import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/atte
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/start_quiz_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../joke/presentation/widgets/quiz_popup_widgets.dart';
+
 class AttemptQuizScreen extends StatefulWidget {
   const AttemptQuizScreen({super.key});
 
@@ -16,7 +18,8 @@ class AttemptQuizScreen extends StatefulWidget {
 class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
   final AttemptQuizController _attemptQuizController =
       Get.find<AttemptQuizController>();
-  final StartQuizController startQuizController = Get.find<StartQuizController>();
+  final StartQuizController startQuizController =
+      Get.find<StartQuizController>();
 
   @override
   void initState() {
@@ -30,15 +33,12 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppBar(
-        title: Obx((){
+        title: Obx(() {
           return Text(
             "${startQuizController.quizInfo.value?.category?.name}",
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
           );
         }),
-
-
-
 
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -104,8 +104,8 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                         itemCount:
                             _attemptQuizController.categoricalQuizList.length,
                         itemBuilder: (context, index) {
-                          final quiz = _attemptQuizController
-                              .categoricalQuizList[index];
+                          final quiz =
+                              _attemptQuizController.categoricalQuizList[index];
                           return Container(
                             decoration: BoxDecoration(
                               color: Colors.white.withAlpha(20),
@@ -132,21 +132,20 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                                     return Obx(() {
                                       final isSelected =
                                           _attemptQuizController
-                                              .selectedAnswerIndex[quiz
-                                              .sId] ==
+                                              .selectedAnswerIndex[quiz.sId] ==
                                           index;
                                       return GestureDetector(
                                         onTap: () {
-                                          _attemptQuizController
-                                              .selectAnswer(
-                                                questionId: quiz.sId ?? '',
-                                                optionIndex: index,
-                                              );
+                                          _attemptQuizController.selectAnswer(
+                                            questionId: quiz.sId ?? '',
+                                            optionIndex: index,
+                                          );
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(80),
+                                            borderRadius: BorderRadius.circular(
+                                              80,
+                                            ),
                                             border: Border.all(
                                               color: isSelected
                                                   ? AppColors.primaryBlue
@@ -159,18 +158,15 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                                             children: [
                                               Icon(
                                                 isSelected
-                                                    ? Icons
-                                                          .radio_button_checked
-                                                    : Icons
-                                                          .radio_button_off,
+                                                    ? Icons.radio_button_checked
+                                                    : Icons.radio_button_off,
                                                 color: Color(0xFF709FFF),
                                               ),
                                               SizedBox(width: 8),
                                               Text(
                                                 quiz.quizOptions![index],
                                                 style: TextStyle(
-                                                  color: AppColors
-                                                      .primaryWhite,
+                                                  color: AppColors.primaryWhite,
                                                 ),
                                               ),
                                             ],
@@ -194,12 +190,44 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                 ),
                 const SizedBox(height: 24),
                 SecondaryButton(
-                  onPressed: () {
-                    _attemptQuizController.submitQuiz(
-                      categoryId: startQuizController.quizInfo.value?.category?.id ?? '',
+                  onPressed: () async {
+                    await startQuizController.jokes(); // fetch joke from API
+
+                    if (startQuizController.jokesInfo.value == null) {
+                      return; // show error if needed
+                    }
+
+                    await showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => Obx(() {
+                        if (startQuizController.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+
+                        final jokeData = startQuizController.jokesInfo.value;
+
+                        return QuizJokeDialog(
+                          jokeQuestion: jokeData!.joke,
+                          jokeAnswer: jokeData.answer,
+                          onContinue: () {
+                            Navigator.pop(context);
+                            _attemptQuizController.submitQuiz(
+                              categoryId:
+                                  startQuizController
+                                      .quizInfo
+                                      .value
+                                      ?.category
+                                      ?.id ??
+                                  '',
+                            );
+                          },
+                          imageUrl: jokeData.imageUrl, // optional: show picture
+                        );
+                      }),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Submit',
                     style: TextStyle(
                       color: AppColors.primaryWhite,
