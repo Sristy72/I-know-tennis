@@ -74,6 +74,9 @@ class AuthEndpoints {
 
   get otpVerifyReset => null;
   final String updatePassword = '$_base/change-password';
+  final String resendOtp = '$_base/resend-otp';
+
+
 }
 
 class UserEndpoints {
@@ -94,6 +97,7 @@ class PlayQuizEndpoints {
   final String submitQuiz = '$_base/submit';
   String startQuiz(String categoryId) =>'$_base/category/$categoryId';
   String viewResult(String attemptId) =>'$_base/result/$attemptId';
+    final String jokes = '${ApiConstants.baseUrl}/joke/random-joke';
 }
 
 class QuizStatusEndpoints {
