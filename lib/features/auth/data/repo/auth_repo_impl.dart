@@ -4,6 +4,8 @@ import 'package:flutter_iknow_tennis/features/auth/data/model/login_request_mode
 import 'package:flutter_iknow_tennis/features/auth/data/model/login_response_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/otp_verify_response_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/resend_otp_request_model.dart';
+import 'package:flutter_iknow_tennis/features/auth/data/model/resend_otp_response_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/signup_request_model.dart';
 import 'package:flutter_iknow_tennis/features/auth/data/model/signup_response_model.dart';
 import 'package:flutter_iknow_tennis/features/profile/models/request/change_pass_request_model.dart';
@@ -79,6 +81,17 @@ class AuthRepositoryImpl implements AuthRepository {
       ApiConstants.auth.refreshToken,
       data: request.toJson(),
       fromJsonT: (json) => RefreshTokenResponseModel.fromJson(json),
+    );
+  }
+
+   @override
+  NetworkResult<ResendOtpResponseModel> resendOTP(
+    ResendOtpRequestModel request,
+  ) {
+    return _apiClient.post(
+      ApiConstants.auth.resendOtp,
+      data: request.toJson(),
+      fromJsonT: (json) => ResendOtpResponseModel.fromJson(json),
     );
   }
 

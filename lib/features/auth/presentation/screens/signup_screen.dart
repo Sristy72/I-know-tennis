@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iknow_tennis/core/common/widgets/app_scaffold.dart';
 import 'package:flutter_iknow_tennis/features/auth/presentation/screens/login_screen.dart';
@@ -5,6 +6,8 @@ import 'package:flutter_iknow_tennis/features/auth/presentation/widget/custom_te
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_buttoms.dart';
+import '../../../profile/screens/privacy_policy_screen.dart';
+import '../../../profile/screens/terms_&_conditions_screen.dart';
 import '../controller/auth_controller.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -194,20 +197,50 @@ class _SignupScreenState extends State<SignupScreen> {
                         alignment:
                             Alignment.topLeft, // 👈 force text to start at top
                         child: RichText(
-                          text: const TextSpan(
-                            style: TextStyle(
+                          text: TextSpan(
+                            style: const TextStyle(
                               color: Colors.white70,
                               fontWeight: FontWeight.w400,
                               fontSize: 13,
                               height: 1.4,
                             ),
                             children: [
+                              const TextSpan(text: "I agree to the "),
+
+                              /// TERMS & CONDITIONS
                               TextSpan(
-                                text:
-                                    "I agree to the Terms and Conditions and \nPrivacy Policy ",
+                                text: "Terms and Conditions",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.to(
+                                      () => const TermsConditionsScreen(),
+                                    );
+                                  },
                               ),
+
+                              const TextSpan(text: " and "),
+
+                              /// PRIVACY POLICY
                               TextSpan(
-                                text: "*",
+                                text: "\n Privacy Policy",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.to(() => const PrivacyPolicyScreen());
+                                  },
+                              ),
+
+                              const TextSpan(
+                                text: " *",
                                 style: TextStyle(
                                   color: Color(0xFFC06D8A),
                                   fontWeight: FontWeight.w600,
