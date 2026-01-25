@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import '../../data/model/leaderboard_response_model.dart';
 import '../../data/model/top_user_model.dart';
@@ -199,24 +197,11 @@ class TopThreePodium extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         // 🥈 Second place
-        _podiumItem(
-          user: second,
-          height: 140,
-          rank: 2,
-        ),
+        _podiumItem(user: second, height: 140, rank: 2),
         // 🥇 First place (tallest)
-        _podiumItem(
-          user: first,
-          height: 190,
-          rank: 1,
-          isWinner: true,
-        ),
+        _podiumItem(user: first, height: 190, rank: 1, isWinner: true),
         // 🥉 Third place
-        _podiumItem(
-          user: third,
-          height: 140,
-          rank: 3,
-        ),
+        _podiumItem(user: third, height: 140, rank: 3),
       ],
     );
   }
@@ -224,17 +209,19 @@ class TopThreePodium extends StatelessWidget {
   // Your existing color methods remain unchanged
   Color _getBorderColor(int rank) {
     switch (rank) {
-      case 1: return const Color(0xFFFFAA00); // Gold
-      case 2: return const Color(0xFF0B4390); // Silver
-      case 3: return const Color(0xFF82ACFF); // Bronze
-      default: return Colors.grey;
+      case 1:
+        return const Color(0xFFFFAA00); // Gold
+      case 2:
+        return const Color(0xFF0B4390); // Silver
+      case 3:
+        return const Color(0xFF82ACFF); // Bronze
+      default:
+        return Colors.grey;
     }
   }
 
   Color _getPodiumColor(int rank) {
-    return rank == 1
-        ? const Color(0xFF3377FF)
-        : const Color(0xFF3170F0);
+    return rank == 1 ? const Color(0xFF3377FF) : const Color(0xFF3170F0);
   }
 
   Widget _podiumItem({
@@ -266,7 +253,7 @@ class TopThreePodium extends StatelessWidget {
                 clipBehavior: Clip.none,
                 alignment: Alignment.topCenter,
                 children: [
-                  // Avatar placeholder (gray person icon if no user)
+                  // Avatar Circle with real user image
                   Container(
                     height: avatarSize,
                     width: avatarSize,
@@ -274,32 +261,67 @@ class TopThreePodium extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: _getBorderColor(rank),
-                        width: 3,
+                        width: 4, // slightly thicker for podium
                       ),
-                      color: Colors.grey[800], // subtle background
                     ),
-                    child: const Icon(
-                      Icons.person,
-                      size: 32,
-                      color: Colors.white70,
+                    child: ClipOval(
+                      child: user?.avatar != null && user!.avatar!.isNotEmpty
+                          ? Image.network(
+                              user.avatar!,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.white.withOpacity(0.5),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                              errorBuilder: (context, error, stackTrace) {
+                                // Fallback to person icon if image fails
+                                return Container(
+                                  color: Colors.grey[800],
+                                  child: const Icon(
+                                    Icons.person,
+                                    size: 32,
+                                    color: Colors.white70,
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(
+                              color: Colors.grey[800],
+                              child: const Icon(
+                                Icons.person,
+                                size: 32,
+                                color: Colors.white70,
+                              ),
+                            ),
                     ),
                   ),
-                  // Crown only if there's a winner
+
+                  // Crown for winner
                   if (isWinner && user != null)
                     Positioned(
                       top: -20,
                       child: Image.asset(
                         'assets/images/crownIcon.png',
-                        width: 26,
-                        height: 26,
+                        width: 32,
+                        height: 32,
                       ),
                     ),
-                  // Rank badge (always shown)
+
+                  // Rank badge at bottom
                   Positioned(
                     bottom: -10,
                     child: Container(
-                      width: 22,
-                      height: 22,
+                      width: 24,
+                      height: 24,
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -309,7 +331,7 @@ class TopThreePodium extends StatelessWidget {
                         rank.toString(),
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -317,22 +339,24 @@ class TopThreePodium extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              // Name — show placeholder if no user
+              const SizedBox(height: 12),
+              // User name
               Text(
                 user?.fullName ?? "—",
                 style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
-              // Points — show 0 or dash
+              const SizedBox(height: 4),
+              // Points
               Text(
-                user != null ? user.points.toString() : "0",
+                user != null ? "${user.points} pts" : "0 pts",
                 style: const TextStyle(
                   color: Color(0xFFFFAA00),
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -343,7 +367,6 @@ class TopThreePodium extends StatelessWidget {
     );
   }
 }
-
 
   // class TopThreeAvatars extends StatelessWidget {
   //   final List<TopUser> users;
