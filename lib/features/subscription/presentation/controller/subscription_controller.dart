@@ -62,13 +62,13 @@ class SubscriptionController extends GetxController {
           paymentError.value = _getErrorMessage(failure);
           isCreatingPayment.value = false;
 
-          Get.snackbar(
-            'Payment Error',
-            paymentError.value,
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red.shade50,
-            colorText: Colors.red.shade800,
-          );
+          // Get.snackbar(
+          //   'Payment Error',
+          //   paymentError.value,
+          //   snackPosition: SnackPosition.BOTTOM,
+          //   backgroundColor: Colors.red.shade50,
+          //   colorText: Colors.red.shade800,
+          // );
         },
         (success) {
           // ✅ SUCCESS BLOCK — success is defined here
@@ -84,13 +84,13 @@ class SubscriptionController extends GetxController {
       isCreatingPayment.value = false;
       paymentError.value = 'Unexpected error: $e';
 
-      Get.snackbar(
-        'Error',
-        paymentError.value,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.shade50,
-        colorText: Colors.red.shade800,
-      );
+      // Get.snackbar(
+      //   'Error',
+      //   paymentError.value,
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   backgroundColor: Colors.red.shade50,
+      //   colorText: Colors.red.shade800,
+      // );
     }
   }
 

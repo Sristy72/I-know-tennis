@@ -644,6 +644,25 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   }),
                 ),
               ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: PrimaryButton(
+                  height: 52,
+                  borderRadius: 12,
+                  isGradient: false,
+                  backgroundColor: const Color(0xFF2058E6),
+                  onPressed: () {},
+                  child: const Text(
+                    "Share with your friend",
+                    style: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
         }),
