@@ -77,23 +77,25 @@ class _QuizJokeDialogState extends State<QuizJokeDialog> {
                     ),
                   )
                 else
-                  ElevatedButton(
-                    onPressed: () => setState(() => _showAnswer = true),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Color(0xFFFFE6E0)),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () => setState(() => _showAnswer = true),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: const BorderSide(color: Color(0xFFFFE6E0)),
+                        ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 12,
-                      ),
-                      child: Text(
-                        'See answer',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
+                        child: Text(
+                          'See answer',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
