@@ -2,12 +2,16 @@ import 'package:flutter_iknow_tennis/core/base/base_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/data/models/quiz_summary_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repository.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/attempt_quiz_controller.dart';
+import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/complete_quiz_screen.dart';
 import 'package:get/get.dart';
+
+import '../../data/models/jokes_response_model.dart';
 
 class CompleteQuizController extends BaseController{
   final QuizRepository _quizRepository;
   final Rx<QuizSummaryResponseModel?> quizSummary = Rx<QuizSummaryResponseModel?>(null);
   final AttemptQuizController attemptQuizController = Get.find<AttemptQuizController>();
+
 
   @override
   void onInit() {
@@ -31,4 +35,6 @@ class CompleteQuizController extends BaseController{
 
     });
   }
+
+
 }

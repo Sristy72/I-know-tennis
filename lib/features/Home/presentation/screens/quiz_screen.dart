@@ -69,81 +69,6 @@ class _QuizHeader extends StatelessWidget {
     );
   }
 }
-// class _QuizSection extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final controller = Get.find<HomeController>();
-
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 16),
-//       child: Obx(() {
-//         final quizList = controller.quizCat.value;
-
-//         return GridView.builder(
-//           itemCount: quizList.length,
-//           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//             crossAxisCount: 2,
-//             crossAxisSpacing: 14,
-//             mainAxisSpacing: 14,
-//             childAspectRatio: 0.58,
-//           ),
-//           itemBuilder: (_, i) {
-//             final isProLocked = i != 0; // 👈 only first item is free
-
-//             return GestureDetector(
-//               onTap: () {
-//                 if (isProLocked) {
-//                   _showProDialog(context);
-//                 } 
-//                 else {
-//                   // navigate to quiz detail or play quiz
-//                   // controller.openQuiz(quizList[i]);
-//                 }
-//               },
-//               child: Stack(
-//                 children: [
-//                   QuizCard(quiz: quizList[i]),
-
-//                   // Add overlay for locked quizzes
-//                   if (isProLocked)
-//                     Positioned.fill(
-//                       child: Container(
-//                         color: Colors.black.withOpacity(0.5),
-//                         child: const Center(
-//                           child: Icon(
-//                             Icons.lock,
-//                             color: Colors.white,
-//                             size: 40,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                 ],
-//               ),
-//             );
-//           },
-//         );
-//       }),
-//     );
-//   }
-
-//   void _showProDialog(BuildContext context) {
-//     Get.defaultDialog(
-//       title: "Pro Version Required",
-//       middleText: "Unlock all quizzes by upgrading to the Pro version.",
-//       confirmTextColor: Colors.white,
-//       onConfirm: () {
-//         Get.back(); // close dialog
-//         Get.toNamed('/payment'); // navigate to payment screen
-//       },
-//       onCancel: () {},
-//       textConfirm: "Upgrade",
-//       textCancel: "Cancel",
-//     );
-//   }
-// }
-
-
 class _QuizSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -160,24 +85,99 @@ class _QuizSection extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: 14,
             mainAxisSpacing: 14,
-            childAspectRatio: 0.58, // 👈 taller cards
+            childAspectRatio: 0.58,
           ),
+          itemBuilder: (_, i) {
+            final isProLocked = i >= 2; // 👈 only first item is free
 
-          itemBuilder: (_, i) => QuizCard(quiz: quizList[i]),
+            return GestureDetector(
+              onTap: () {
+                if (isProLocked) {
+                  _showProDialog(context);
+                }
+                else {
+                  // navigate to quiz detail or play quiz
+                  // controller.openQuiz(quizList[i]);
+                }
+              },
+              child: Stack(
+                children: [
+                  QuizCard(quiz: quizList[i]),
+
+                  // Add overlay for locked quizzes
+                  if (isProLocked)
+                    Positioned.fill(
+                      child: Container(
+                        color: Colors.black.withOpacity(0.5),
+                        child: const Center(
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
         );
       }),
-      // Obx(
-      //   () => GridView.builder(
-      //     itemCount: controller.quizzes.length,
-      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //       crossAxisCount: 2,
-      //       crossAxisSpacing: 14,
-      //       mainAxisSpacing: 14,
-      //       childAspectRatio: .65,
-      //     ),
-      //     itemBuilder: (_, i) => QuizCard(quiz: controller.quizzes[i]),
-      //   ),
-      // ),
+    );
+  }
+
+  void _showProDialog(BuildContext context) {
+    Get.defaultDialog(
+      title: "Pro Version Required",
+      middleText: "Unlock all quizzes by upgrading to the Pro version.",
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        Get.back(); // close dialog
+        Get.toNamed('/payment'); // navigate to payment screen
+      },
+      onCancel: () {},
+      textConfirm: "Upgrade",
+      textCancel: "Cancel",
     );
   }
 }
+
+
+// class _QuizSection extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final controller = Get.find<HomeController>();
+//
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 16),
+//       child: Obx(() {
+//         final quizList = controller.quizCat.value;
+//
+//         return GridView.builder(
+//           itemCount: quizList.length,
+//           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: 2,
+//             crossAxisSpacing: 14,
+//             mainAxisSpacing: 14,
+//             childAspectRatio: 0.58, // 👈 taller cards
+//           ),
+//
+//           itemBuilder: (_, i) => QuizCard(quiz: quizList[i]),
+//         );
+//       }),
+//       // Obx(
+//       //   () => GridView.builder(
+//       //     itemCount: controller.quizzes.length,
+//       //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//       //       crossAxisCount: 2,
+//       //       crossAxisSpacing: 14,
+//       //       mainAxisSpacing: 14,
+//       //       childAspectRatio: .65,
+//       //     ),
+//       //     itemBuilder: (_, i) => QuizCard(quiz: controller.quizzes[i]),
+//       //   ),
+//       // ),
+//     );
+//   }
+// }
