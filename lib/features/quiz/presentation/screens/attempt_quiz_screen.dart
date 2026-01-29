@@ -191,10 +191,10 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                 const SizedBox(height: 24),
                 SecondaryButton(
                   onPressed: () async {
-                    await startQuizController.jokes(); // fetch joke from API
+                    await _attemptQuizController.jokes();
 
-                    if (startQuizController.jokesInfo.value == null) {
-                      return; // show error if needed
+                    if (_attemptQuizController.jokesInfo.value == null) {
+                      return;
                     }
 
                     await showDialog(
@@ -205,11 +205,11 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                           return Center(child: CircularProgressIndicator());
                         }
 
-                        final jokeData = startQuizController.jokesInfo.value;
+                        final jokeData = _attemptQuizController.jokesInfo.value;
 
                         return QuizJokeDialog(
                           jokeQuestion: jokeData!.joke,
-                          jokeAnswer: jokeData.answer,
+                          jokeAnswer: jokeData.jokeAnswer,
                           onContinue: () {
                             Navigator.pop(context);
                             _attemptQuizController.submitQuiz(

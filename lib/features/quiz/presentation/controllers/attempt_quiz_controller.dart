@@ -6,6 +6,7 @@ import 'package:flutter_iknow_tennis/features/quiz/domain/repositories/quiz_repo
 import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/complete_quiz_screen.dart';
 import 'package:get/get.dart';
 
+import '../../data/models/jokes_response_model.dart';
 import '../../data/models/submit_quiz_request_model.dart';
 
 class AttemptQuizController extends BaseController{
@@ -14,6 +15,7 @@ class AttemptQuizController extends BaseController{
   RxList<CategoricalQuizResponseModel> categoricalQuizList = <CategoricalQuizResponseModel>[].obs;
   Rx<PaginationModel?> pagination = Rx<PaginationModel?>(null);
   Rx<SubmitQuizResponseModel?> submitQuizResponseModel = Rx<SubmitQuizResponseModel?>(null);
+  final Rx<JokesResponseModel?> jokesInfo = Rx<JokesResponseModel?>(null);
 
   RxMap<String, int> selectedAnswerIndex = <String, int>{}.obs;
 
@@ -80,6 +82,19 @@ class AttemptQuizController extends BaseController{
     });
   }
 
-
+  Future<void> jokes() async{
+    setLoading(true);
+    setError('');
+    final result = await _quizRepository.jokes();
+    result.fold((failure){
+      setLoading(false);
+      setError(failure.message);
+      Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
+    }, (success){
+      jokesInfo.value = success.data;
+      setLoading(false);
+      Get.to(() => CompleteQuizScreen());
+    });
+  }
 
 }
