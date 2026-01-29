@@ -1,11 +1,11 @@
 class JokesResponseModel {
   final String joke;
-  final String answer;
+  final String jokeAnswer;
   final String imageUrl;
 
   JokesResponseModel({
     required this.joke,
-    required this.answer,
+    required this.jokeAnswer,
     required this.imageUrl,
   });
 
@@ -13,7 +13,7 @@ class JokesResponseModel {
   factory JokesResponseModel.fromJson(Map<String, dynamic> json) {
     return JokesResponseModel(
       joke: json['joke'] ?? '',
-      answer: json['answer'] ?? '',
+      jokeAnswer: json['jokeAnswer'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
     );
   }
@@ -22,7 +22,7 @@ class JokesResponseModel {
   Map<String, dynamic> toJson() {
     return {
       'joke': joke,
-      'answer': answer,
+      'answer': jokeAnswer,
       'imageUrl': imageUrl,
     };
   }
