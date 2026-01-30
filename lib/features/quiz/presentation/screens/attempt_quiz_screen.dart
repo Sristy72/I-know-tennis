@@ -191,40 +191,51 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                 const SizedBox(height: 24),
                 SecondaryButton(
                   onPressed: () async {
+                    // First fetch joke
                     await _attemptQuizController.jokes();
 
                     if (_attemptQuizController.jokesInfo.value == null) {
+                      // fallback — submit anyway if no joke loaded
+                      _attemptQuizController.submitQuiz(
+                        categoryId:
+                            startQuizController.quizInfo.value?.category?.id ??
+                            '',
+                      );
                       return;
                     }
 
+                    // Show dialog
                     await showDialog(
                       context: context,
                       barrierDismissible: false,
-                      builder: (context) => Obx(() {
-                        if (startQuizController.isLoading.value) {
-                          return Center(child: CircularProgressIndicator());
-                        }
+                      builder: (context) {
+                        return Obx(() {
+                          // You can show loading inside dialog if needed, but usually not necessary here
+                          final jokeData =
+                              _attemptQuizController.jokesInfo.value!;
 
-                        final jokeData = _attemptQuizController.jokesInfo.value;
+                          return QuizJokeDialog(
+                            jokeQuestion: jokeData.joke,
+                            jokeAnswer: jokeData.jokeAnswer,
+                            imageUrl: jokeData.imageUrl,
+                            onContinue: () {
+                              // This is called when user presses X
+                              Navigator.pop(context); // close dialog
 
-                        return QuizJokeDialog(
-                          jokeQuestion: jokeData!.joke,
-                          jokeAnswer: jokeData.jokeAnswer,
-                          onContinue: () {
-                            Navigator.pop(context);
-                            _attemptQuizController.submitQuiz(
-                              categoryId:
-                                  startQuizController
-                                      .quizInfo
-                                      .value
-                                      ?.category
-                                      ?.id ??
-                                  '',
-                            );
-                          },
-                          imageUrl: jokeData.imageUrl, // optional: show picture
-                        );
-                      }),
+                              // NOW submit the quiz and navigate
+                              _attemptQuizController.submitQuiz(
+                                categoryId:
+                                    startQuizController
+                                        .quizInfo
+                                        .value
+                                        ?.category
+                                        ?.id ??
+                                    '',
+                              );
+                            },
+                          );
+                        });
+                      },
                     );
                   },
                   child: const Text(
@@ -235,6 +246,69 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                     ),
                   ),
                 ),
+
+                // SecondaryButton(
+                //   onPressed: () {
+                //     _attemptQuizController.submitQuiz(
+                //       categoryId:
+                //           startQuizController.quizInfo.value?.category?.id ??
+                //           '',
+                //     );
+                //   },
+                //   child: Text(
+                //     'Submit',
+                //     style: TextStyle(
+                //       color: AppColors.primaryWhite,
+                //       fontSize: 16,
+                //     ),
+                //   ),
+                // ),
+                // SecondaryButton(
+                //   onPressed: () async {
+                //     await _attemptQuizController.jokes();
+
+                //     if (_attemptQuizController.jokesInfo.value == null) {
+                //       return;
+                //     }
+
+                //     await showDialog(
+                //       context: context,
+                //       barrierDismissible: false,
+                //       builder: (context) => Obx(() {
+                //         if (startQuizController.isLoading.value) {
+                //           return Center(child: CircularProgressIndicator());
+                //         }
+
+                //         final jokeData = _attemptQuizController.jokesInfo.value;
+
+                //         return QuizJokeDialog(
+                //           jokeQuestion: jokeData!.joke,
+                //           jokeAnswer: jokeData.jokeAnswer,
+                //           onContinue: () {
+                //             Navigator.pop(context);
+                //             _attemptQuizController.submitQuiz(
+                //               categoryId:
+                //                   startQuizController
+                //                       .quizInfo
+                //                       .value
+                //                       ?.category
+                //                       ?.id ??
+                //                   '',
+                //             );
+                //           },
+                //           imageUrl: jokeData.imageUrl, // optional: show picture
+                //         );
+                //       }),
+                //     );
+                //   },
+                //   child: const Text(
+                //     'Submit',
+                //     style: TextStyle(
+                //       color: AppColors.primaryWhite,
+                //       fontSize: 16,
+                //     ),
+                //   ),
+                // ),
               ],
             );
           }),
