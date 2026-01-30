@@ -14,11 +14,12 @@ import '../models/submit_quiz_response_model.dart';
 class QuizRepositoryImpl implements QuizRepository {
   final ApiClient _apiClient;
 
-  QuizRepositoryImpl({required ApiClient apiClient})
-    : _apiClient = apiClient;
+  QuizRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   @override
-  NetworkResult<List<CategoricalQuizResponseModel>> getQuiz({required String categoryName}) {
+  NetworkResult<List<CategoricalQuizResponseModel>> getQuiz({
+    required String categoryName,
+  }) {
     return _apiClient.get(
       ApiConstants.quiz.getQuiz,
       queryParameters: {'categoryName': categoryName},
@@ -36,36 +37,62 @@ class QuizRepositoryImpl implements QuizRepository {
         return list
             .map(
               (e) => CategoricalQuizResponseModel.fromJson(
-            e as Map<String, dynamic>,
-          ),
-        )
+                e as Map<String, dynamic>,
+              ),
+            )
             .toList();
       },
     );
   }
 
   @override
-  NetworkResult<SubmitQuizResponseModel> submitQuiz(SubmitQuizRequestModel requestModel) {
-    return _apiClient.post(ApiConstants.playQuiz.submitQuiz, data: requestModel.toJson(), fromJsonT: (json) => SubmitQuizResponseModel.fromJson(json));
+  NetworkResult<SubmitQuizResponseModel> submitQuiz(
+    SubmitQuizRequestModel requestModel,
+  ) {
+    return _apiClient.post(
+      ApiConstants.playQuiz.submitQuiz,
+      data: requestModel.toJson(),
+      fromJsonT: (json) => SubmitQuizResponseModel.fromJson(json),
+    );
   }
 
   @override
-  NetworkResult<StartQuizResponseModel> startQuiz({required String categoryId}) {
-    return _apiClient.get(ApiConstants.playQuiz.startQuiz(categoryId), fromJsonT: (json) => StartQuizResponseModel.fromJson(json));
+  NetworkResult<StartQuizResponseModel> startQuiz({
+    required String categoryId,
+  }) {
+    
+    return _apiClient.get(
+      ApiConstants.playQuiz.startQuiz(categoryId),
+
+      fromJsonT: (json) => StartQuizResponseModel.fromJson(json),
+    );
   }
 
   @override
-  NetworkResult<QuizSummaryResponseModel> quizSummary({required String attemptId}) {
-    return _apiClient.get(ApiConstants.quizStatus.attemptQuizSummary(attemptId), fromJsonT: (json) => QuizSummaryResponseModel.fromJson(json));
+  NetworkResult<QuizSummaryResponseModel> quizSummary({
+    required String attemptId,
+  }) {
+    return _apiClient.get(
+      ApiConstants.quizStatus.attemptQuizSummary(attemptId),
+      fromJsonT: (json) => QuizSummaryResponseModel.fromJson(json),
+    );
   }
 
   @override
-  NetworkResult<ViewResultResponseModel> viewResult({required String attemptId}) {
-    return _apiClient.get(ApiConstants.playQuiz.viewResult(attemptId), fromJsonT: (json) => ViewResultResponseModel.fromJson(json));
+  NetworkResult<ViewResultResponseModel> viewResult({
+    required String attemptId,
+  }) {
+    return _apiClient.get(
+      ApiConstants.playQuiz.viewResult(attemptId),
+      fromJsonT: (json) => ViewResultResponseModel.fromJson(json),
+    );
   }
 
-    @override
+  @override
   NetworkResult<JokesResponseModel> jokes() {
-    return _apiClient.get(ApiConstants.playQuiz.jokes, fromJsonT: (json) => JokesResponseModel.fromJson(json));
+    return _apiClient.get(
+      ApiConstants.playQuiz.jokes,
+      fromJsonT: (json) => JokesResponseModel.fromJson(json),
+    );
   }
 }
