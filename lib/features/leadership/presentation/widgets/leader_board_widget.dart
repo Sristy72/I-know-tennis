@@ -114,13 +114,22 @@ class LeaderboardRow extends StatelessWidget {
           const SizedBox(width: 12),
 
           // Avatar
-          CircleAvatar(
-            radius: 25,
-            backgroundImage: user.avatar != null && user.avatar!.isNotEmpty
-                ? NetworkImage(user.avatar!)
-                : const NetworkImage("https://i.pravatar.cc/150"), // fallback
-            backgroundColor: Colors.grey.shade800,
-          ),
+         CircleAvatar(
+  radius: 25,
+  backgroundColor: Colors.grey.shade800,
+  backgroundImage:
+      (user.avatar != null && user.avatar!.isNotEmpty)
+          ? NetworkImage(user.avatar!)
+          : null,
+  child: (user.avatar == null || user.avatar!.isEmpty)
+      ? const Icon(
+          Icons.person,
+          color: Colors.white70,
+          size: 28,
+        )
+      : null,
+),
+
           const SizedBox(width: 12),
 
           // Name and Email/Handle
@@ -130,7 +139,7 @@ class LeaderboardRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.fullName,
+                  user.fullName ?? 'Unknown',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
@@ -140,7 +149,7 @@ class LeaderboardRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  user.email, // You can change this to a username if you add one later
+                  user.email ?? 'No email', // You can change this to a username if you add one later
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 12,

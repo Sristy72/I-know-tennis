@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iknow_tennis/core/utils/debug_print.dart';
 import 'package:flutter_iknow_tennis/features/Home/data/model/quiz_category_response_model.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/controllers/start_quiz_controller.dart';
 import 'package:flutter_iknow_tennis/features/quiz/presentation/screens/start_quiz_screen.dart';
@@ -15,7 +16,11 @@ class QuizCard extends StatelessWidget {
         Get.find<StartQuizController>();
     return GestureDetector(
       onTap: () {
-        startQuizController.startQuiz(categoryId: quiz.id ?? '');
+        if (quiz.id == null) {
+          DPrint.log("quiz id is null");
+          return;
+        }
+        startQuizController.startQuiz(categoryId: quiz.id!);
       },
       child: Container(
         decoration: BoxDecoration(

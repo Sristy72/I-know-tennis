@@ -18,15 +18,16 @@ class LeaderboardResponse {
   });
 
   factory LeaderboardResponse.fromJson(Map<String, dynamic> json) {
-    DPrint.log("LeaderboardResponse in fromJson: $json");
-    return LeaderboardResponse(
-      page: json['page'],
-      limit: json['limit'],
-      top3: (json['top3'] as List).map((e) => TopUser.fromJson(e)).toList(),
-      list: (json['list'] as List).map((e) => ListUser.fromJson(e)).toList(),
-      me: Me.fromJson(json['me']),
-    );
-  }
+  DPrint.log("LeaderboardResponse in fromJson: $json");
+  return LeaderboardResponse(
+    page: json['page'],
+    limit: json['limit'],
+    top3: (json['top3'] as List).map((e) => TopUser.fromJson(e)).toList(),
+    list: (json['list'] as List).map((e) => ListUser.fromJson(e)).toList(),
+    me: Me.fromJson(json['me']),
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -42,7 +43,7 @@ class LeaderboardResponse {
 class TopUser {
   final int rank;
   final String userId;
-  final String fullName;
+  final String? fullName;
   final String? avatar;
   final int points;
 
@@ -78,31 +79,31 @@ class TopUser {
 class ListUser {
   final int rank;
   final String userId;
-  final String fullName;
-  final String email;
+  final String? fullName;
+  final String? email;          // ← fix 1: nullable
   final String? avatar;
-  final String role;
+  final String? role;           // ← fix 2: nullable
   final int points;
 
   ListUser({
     required this.rank,
     required this.userId,
-    required this.fullName,
-    required this.email,
+    this.fullName,              // ← no longer required
+    this.email,                 // ← no longer required
     this.avatar,
-    required this.role,
+    this.role,                  // ← no longer required
     required this.points,
   });
 
   factory ListUser.fromJson(Map<String, dynamic> json) {
     return ListUser(
-      rank: json['rank'],
-      userId: json['userId'],
-      fullName: json['fullName'],
-      email: json['email'],
-      avatar: json['avatar'],
-      role: json['role'],
-      points: json['points'],
+      rank: json['rank'] as int,
+      userId: json['userId'] as String,
+      fullName: json['fullName'] as String?,
+      email: json['email'] as String?,
+      avatar: json['avatar'] as String?,
+      role: json['role'] as String?,
+      points: json['points'] as int,
     );
   }
 
