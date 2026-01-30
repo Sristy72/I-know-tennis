@@ -9,6 +9,7 @@ class QuizCategoryResponse {
   final int? quizPoint;
   final String? quizCategoryDetails;
   final int? quizTotalTime;
+  final bool? isLocked;
   final List<String>? quizzes;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -24,6 +25,7 @@ class QuizCategoryResponse {
     this.quizPoint,
     this.quizCategoryDetails,
     this.quizTotalTime,
+    this.isLocked,
     this.quizzes,
     this.createdAt,
     this.updatedAt,
@@ -41,6 +43,7 @@ class QuizCategoryResponse {
       quizPoint: json['quizPoint'],
       quizCategoryDetails: json['quizCategoryDetails'],
       quizTotalTime: json['quizTotalTime'],
+      isLocked: json['isLocked'],
       quizzes: json['quizzes'] != null
           ? List<String>.from(json['quizzes'])
           : [],
@@ -65,6 +68,7 @@ class QuizCategoryResponse {
       'quizPoint': quizPoint,
       'quizCategoryDetails': quizCategoryDetails,
       'quizTotalTime': quizTotalTime,
+      'isLocked': isLocked,
       'quizzes': quizzes,
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
