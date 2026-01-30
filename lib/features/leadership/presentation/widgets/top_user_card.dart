@@ -50,7 +50,7 @@ import '../../data/model/top_user_model.dart';
 //   }
 // }
 class TopUserCard extends StatelessWidget {
-  final TopUser user;
+  final ListUser user;
   final double width;
   final double podiumHeight;
   final int position;
@@ -104,7 +104,7 @@ class TopUserCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      user.fullName,
+                      user.fullName ?? 'Unknown',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -121,14 +121,14 @@ class TopUserCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 2),
-                    // Text(
-                    //   user.email,
-                    //   style: const TextStyle(
-                    //     color: Colors.white70,
-                    //     fontSize: 10,
-                    //   ),
-                    //   textAlign: TextAlign.center,
-                    // ),
+                    Text(
+                      user.email ?? '',
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 10,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               ),

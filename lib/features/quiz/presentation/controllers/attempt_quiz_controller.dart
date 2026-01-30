@@ -93,7 +93,7 @@ class AttemptQuizController extends BaseController{
     }, (success){
       jokesInfo.value = success.data;
       setLoading(false);
-      Get.to(() => CompleteQuizScreen());
+      // Get.to(() => CompleteQuizScreen());
     });
   }
 

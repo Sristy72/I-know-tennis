@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/common/widgets/app_scaffold.dart';
+import '../../../profile/screens/subscription_screen.dart';
 import '../controller/home_controller.dart';
 import '../widget/quiz_card_widget.dart';
 
@@ -69,6 +70,7 @@ class _QuizHeader extends StatelessWidget {
     );
   }
 }
+
 class _QuizSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,44 +79,80 @@ class _QuizSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Obx(() {
-        final quizList = controller.quizCat.value;
+        final allQuizzes = controller.quizCat.value;
+
+        // Sort: unlocked (false/null) FIRST, then locked (true)
+        final sortedQuizzes = allQuizzes.toList()
+          ..sort((a, b) {
+            final aLocked = a.isLocked ?? false;
+            final bLocked = b.isLocked ?? false;
+
+            // unlocked before locked
+            if (!aLocked && bLocked) return -1;
+            if (aLocked && !bLocked) return 1;
+            return 0; // keep original order within same group
+          });
+
+        if (sortedQuizzes.isEmpty) {
+          return const Center(
+            child: Text(
+              "No quizzes available",
+              style: TextStyle(color: Colors.white70, fontSize: 16),
+            ),
+          );
+        }
 
         return GridView.builder(
-          itemCount: quizList.length,
+          itemCount: sortedQuizzes.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 14,
             mainAxisSpacing: 14,
             childAspectRatio: 0.58,
           ),
-          itemBuilder: (_, i) {
-            final isProLocked = i >= 2; // 👈 only first item is free
+          itemBuilder: (_, index) {
+            final quiz = sortedQuizzes[index];
+            final isLocked = quiz.isLocked ?? false;
 
             return GestureDetector(
               onTap: () {
-                if (isProLocked) {
+                if (isLocked) {
                   _showProDialog(context);
-                }
-                else {
-                  // navigate to quiz detail or play quiz
-                  // controller.openQuiz(quizList[i]);
+                } else {
+                  // Navigate to quiz detail or start quiz
+                  // Example:
+                  // Get.to(() => QuizDetailScreen(quiz: quiz));
+                  // or controller.startQuiz(quiz);
                 }
               },
               child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  QuizCard(quiz: quizList[i]),
+                  // Main quiz card
+                  QuizCard(quiz: quiz),
 
-                  // Add overlay for locked quizzes
-                  if (isProLocked)
-                    Positioned.fill(
-                      child: Container(
-                        color: Colors.black.withOpacity(0.5),
-                        child: const Center(
-                          child: Icon(
-                            Icons.lock,
-                            color: Colors.white,
-                            size: 40,
-                          ),
+                  // Overlay for locked categories
+                  if (isLocked)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.55),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Icon(Icons.lock, color: Colors.white, size: 42),
+                            // SizedBox(height: 8),
+                            // Text(
+                            //   "Locked",
+                            //   style: TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 16,
+                            //     fontWeight: FontWeight.w600,
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ),
                     ),
@@ -129,20 +167,95 @@ class _QuizSection extends StatelessWidget {
 
   void _showProDialog(BuildContext context) {
     Get.defaultDialog(
-      title: "Pro Version Required",
-      middleText: "Unlock all quizzes by upgrading to the Pro version.",
-      confirmTextColor: Colors.white,
-      onConfirm: () {
-        Get.back(); // close dialog
-        Get.toNamed('/payment'); // navigate to payment screen
-      },
-      onCancel: () {},
-      textConfirm: "Upgrade",
-      textCancel: "Cancel",
+      backgroundColor: Colors.white,
+      title: "",
+      titlePadding: EdgeInsets.zero, // remove default title padding
+      contentPadding: EdgeInsets.zero, // remove default content padding
+      content: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ), // overall card padding
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // SizedBox(height: 8), // spacing above title
+              Center(
+                child: Text(
+                  "Pro Version Required",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 8), // spacing between title and message
+              Center(
+                child: Text(
+                  "Unlock all quizzes by upgrading to the Pro version.",
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 16), // spacing between text and buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.black),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16), // space between buttons
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF2058E6),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                        Get.to(() => SubscriptionScreen());
+                      },
+                      child: Text(
+                        "Upgrade",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
-
 
 // class _QuizSection extends StatelessWidget {
 //   @override
